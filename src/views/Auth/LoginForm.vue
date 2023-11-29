@@ -1,0 +1,163 @@
+<template>
+  <div class="login_form_wrapper">
+    <!-- Start:: Form Title -->
+    <!-- <div class="form_title_wrapper">
+    </div> -->
+    <!-- End:: Form Title -->
+
+    <!-- Start:: Form -->
+    <div class="form_wrapper">
+      <form
+        class="mt-4"
+        @submit.prevent="validateFormInputs"
+        autocomplete="off"
+      >
+        <div class="row justify-content-center">
+          <!-- Start:: Email Input -->
+          <base-input
+            col="7"
+            type="email"
+            :placeholder="$t('PLACEHOLDERS.email')"
+            v-model.trim="loginData.email"
+            required
+          />
+          <!-- End:: Email Input -->
+
+          <!-- Start:: Password Input -->
+          <base-input
+            col="7"
+            type="password"
+            :placeholder="$t('PLACEHOLDERS.password')"
+            v-model.trim="loginData.password"
+            required
+          />
+          <!-- End:: Password Input -->
+
+          <!-- Start:: Forget Password Route -->
+          <div class="col-lg-7">
+            <router-link
+              to="/reset-password-email"
+              class="forget_pass_route"
+            >
+              {{ $t("BUTTONS.forgetPassword") }}
+            </router-link>
+          </div>
+          <!-- End:: Forget Password Route -->
+
+          <!-- Start:: Submit Button -->
+          <div class="col-lg-7 my-5">
+            <base-button
+              class="mt-0 w-100"
+              styleType="primary_btn"
+              :btnText="$t('BUTTONS.login')"
+              :isLoading="isWaitingRequest"
+              :disabled="isWaitingRequest"
+            />
+          </div>
+          <!-- End:: Submit Button -->
+        </div>
+      </form>
+    </div>
+    <!-- End:: Form -->
+  </div>
+</template>
+
+<script>
+import { mapGetters, mapActions } from "vuex";
+
+export default {
+  name: "LoginForm",
+
+  computed: {
+    ...mapGetters({
+      getAppLocale: "AppLangModule/getAppLocale",
+    }),
+  },
+
+  data() {
+    return {
+      // Start:: Loader Data
+      isWaitingRequest: false,
+      // End:: Loader Data
+
+      // Start:: Data Collection To Send
+      loginData: {
+        email: null,
+        password: null,
+      },
+      // End:: Data Collection To Send
+    };
+  },
+
+  methods: {
+    // Start:: Vuex Set Authenticated User Data
+    ...mapActions({
+      setAuthenticatedUserData: "AuthenticationModule/setAuthenticatedUserData",
+    }),
+    // End:: Vuex Set Authenticated User Data
+
+    // Start:: Validate Form Inputs
+    validateFormInputs() {
+      this.isWaitingRequest = true;
+
+      if (!this.loginData.email) {
+        this.isWaitingRequest = false;
+        this.$message.error(this.$t("VALIDATION.email"));
+        return;
+      } else if (!this.loginData.password) {
+        this.isWaitingRequest = false;
+        this.$message.error(this.$t("VALIDATION.password"));
+        return;
+      } else if (this.loginData.password.length < 6) {
+        this.isWaitingRequest = false;
+        this.$message.error(this.$t("VALIDATION.passwordLength"));
+        return;
+      } else {
+        this.submitForm();
+      }
+    },
+    // End:: Validate Form Inputs
+
+    // Start:: Submit Form
+    async submitForm() {
+      const REQUEST_DATA = {};
+      // Start:: Append Request Data (JSON)
+      REQUEST_DATA["email"] = this.loginData.email;
+      REQUEST_DATA["password"] = this.loginData.password;
+      // End:: Append Request Data (JSON)
+
+      try {
+        let res = await this.$axios({
+          method: "POST",
+          url: `auth/login`,
+          data: REQUEST_DATA,
+        });
+        this.isWaitingRequest = false;
+
+        // Start:: Set Authed User Data
+        this.setAuthenticatedUserData({
+          // id: res.data.data.admin.id,
+          token: res.data.data.access_token,
+          name: res.data.data.user.name,
+        });
+        // End:: Set Authed User Data
+        this.$message.success(this.$t("VALIDATION.loginSuccess"));
+        this.clearFormInputs();
+        this.$router.replace("/home");
+        location.reload();
+      } catch (error) {
+        this.isWaitingRequest = false;
+        this.$message.error(error.response.data.message);
+      }
+    },
+    // End:: Submit Form
+
+    // Start:: Clear Form Inputs
+    clearFormInputs() {
+      this.loginData.email = null;
+      this.loginData.password = null;
+    },
+    // End:: Clear Form Inputs
+  },
+};
+</script>
