@@ -8,7 +8,7 @@ export default {
   //       method: "GET",
   //       url: `core/check-abilities`,
   //     });
-  //     context.commit("setAllSystemPermissions", res.data.data.abilities);
+  //     context.commit("setAllSystemPermissions", res.data.data);
   //   } catch (error) {
   //     console.log(error.response.data.message);
   //   }
@@ -23,7 +23,7 @@ export default {
         url: `core/check-abilities`,
       });
       context.commit("setAuthedUserPermissions", res.data.data.abilities);
-      console.log( res.data.data.abilities)
+      console.log(res.data.data.abilities);
     } catch (error) {
       console.log(error.response.data.message);
     }

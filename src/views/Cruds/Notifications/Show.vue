@@ -11,16 +11,9 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row justify-content-center">
           <!-- Start:: Receiver Type Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.receiverType')" v-model.trim="data.sender_type"
-            required readonly />
+          <base-input col="6" type="text" :placeholder="$t('TABLES.Notifications.receiverType')"
+            v-model.trim="data.sender_type" required readonly />
           <!-- End:: Receiver Type Input -->
-
-          <!-- Start:: Clients Type Input -->
-
-          <!-- <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.clients')" v-model.trim="data.clients"
-            required /> -->
-          <!-- End:: Clients Type Input -->
-
 
           <div class="col-12">
             <div class="row">
@@ -130,12 +123,10 @@ export default {
       try {
         let res = await this.$axios({
           method: "GET",
-          url: `main/show-send-notification?notification_id=${this.$route.params.id}`
+          url: `modules/notification/${this.$route.params.id}`
         });
-
-
         console.log(res.data.data)
-        this.data.sender_type = res.data.data.sender_type;
+        this.data.sender_type = res.data.data.targets[0].name;
         this.data.titleAr = res.data.data.title_ar;
         this.data.titleEn = res.data.data.title_en;
         this.data.contentAr = res.data.data.content_ar;

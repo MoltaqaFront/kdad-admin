@@ -6,15 +6,18 @@ export default {
     try {
       let res = await axios({
         method: "GET",
-        url: `admin/roles`,
+        url: `modules/ability`,
       });
       // console.log("ROLES =>", res.data.body.roles_and_permissions);
-      context.commit("setRoles", res.data.body.roles_and_permissions.map(item => {
-        return {
-          id: item.id,
-          name: item.role,
-        }
-      }));
+      context.commit(
+        "setRoles",
+        res.data.data.map((item) => {
+          return {
+            id: item.id,
+            name: item.title,
+          };
+        })
+      );
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -32,45 +35,51 @@ export default {
         },
       });
       // console.log("STORES =>", res.data.body);
-      context.commit("setStores", res.data.body.stores.map(item => {
-        return {
-          id: item.id,
-          name: item.title,
-        }
-      }));
+      context.commit(
+        "setStores",
+        res.data.body.stores.map((item) => {
+          return {
+            id: item.id,
+            name: item.title,
+          };
+        })
+      );
     } catch (error) {
       console.log(error.response.data.message);
     }
   },
   // End:: Get Stores
 
-    // Start:: Get Order Types & Store Categories
-    async getStoreCategoriesAndOrderTypes(context) {
-      try {
-        let res = await axios({
-          method: "GET",
-          url: `admin/stores/types/categories`,
-        });
-        context.commit("setStoreCategories", res.data.body.mainCategories.map(item => {
+  // Start:: Get Order Types & Store Categories
+  async getStoreCategoriesAndOrderTypes(context) {
+    try {
+      let res = await axios({
+        method: "GET",
+        url: `admin/stores/types/categories`,
+      });
+      context.commit(
+        "setStoreCategories",
+        res.data.body.mainCategories.map((item) => {
           return {
             id: item.id,
             name: item.title,
-          }
-        }));
-        context.commit("setOrderTypes", res.data.body.orderTypes.map(item => {
+          };
+        })
+      );
+      context.commit(
+        "setOrderTypes",
+        res.data.body.orderTypes.map((item) => {
           return {
             id: item.id,
             name: item.title,
-          }
-        }));
-      } catch (error) {
-        console.log(error.response.data.message);
-      }
-    },
-    // End:: Get OrderTypes & Store Categories
-
-
-
+          };
+        })
+      );
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  },
+  // End:: Get OrderTypes & Store Categories
 
   // Start:: Get Areas
   async getAreas(context) {
@@ -90,8 +99,8 @@ export default {
   // Start:: Get Cities
   async getCities(context) {
     context.commit("setCities", [
-      {id: 1, name: "City 1"},
-      {id: 2, name: "City 2"},
+      { id: 1, name: "City 1" },
+      { id: 2, name: "City 2" },
     ]);
     // try {
     //   let res = await axios({

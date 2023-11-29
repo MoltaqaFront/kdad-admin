@@ -45,6 +45,18 @@
 
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.age')" v-model.trim="data.age" disabled />
 
+          <base-input col="12" type="text" :placeholder="$t('TABLES.Addresses.address')" v-model.trim="place" disabled />
+
+          <div class="row">
+            <div class="col-12">
+              <GmapMap :center="center" :zoom="7" map-type-id="terrain" style="width: 100%; height: 300px"
+                :options="mapOptions">
+                <GmapMarker :position="marker.position" :clickable="true" :draggable="true" @click="markerClicked"
+                  @dragend="markerDragged($event)" :options="mapOptions" />
+              </GmapMap>
+            </div>
+          </div>
+
           <base-image-upload-input col="12" identifier="id_imge" :preSelectedImage="data.id_imge.path"
             :placeholder="$t('PLACEHOLDERS.car_image')" @selectImage="selectImage" disabled />
 
@@ -130,6 +142,27 @@ export default {
       AllCarModal: [],
       AllCarTypes: [],
 
+      // google maps
+
+      center: { lat: 24.7136, lng: 46.6753 },
+      zoom: 10,
+      currentPlace: null,
+      marker: {
+        position: { lat: 24.7136, lng: 46.6753 }, // Initial marker position (Riyadh)
+      },
+      Latitude: '',
+      Longitude: '',
+      Radius: '',
+      place: '',
+
+      mapOptions: {
+        zoomControl: false, // Disable the default zoom control
+        disableDoubleClickZoom: false, // Disable zooming on double-click
+        draggable: false, // Disable dragging the map
+        clickableIcons: false, // Disable clickable icons on the map
+        // More options can be added if required
+      },
+
     };
   },
 
@@ -159,6 +192,81 @@ export default {
     },
     // End:: Select Upload Image
 
+    // google maps
+
+    handleMapClick(event) {
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+
+      const radius = this.calculateDistance(lat, lng, this.center.lat, this.center.lng);
+
+      const geocoder = new google.maps.Geocoder();
+      const latLng = new google.maps.LatLng(lat, lng);
+
+      geocoder.geocode({ location: latLng }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          this.Latitude = lat;
+          this.Longitude = lng;
+          this.Radius = radius;
+          this.place = results[0].formatted_address;
+
+          console.log('Latitude:', lat);
+          console.log('Longitude:', lng);
+          console.log('Radius:', radius);
+          console.log('Place:', results[0].formatted_address);
+
+          this.marker.position = { lat, lng }; // Update the marker's position
+        }
+      });
+    },
+
+    calculateDistance(lat1, lng1, lat2, lng2) {
+      const R = 6371; // Radius of the earth in kilometers
+      const dLat = this.deg2rad(lat2 - lat1);
+      const dLng = this.deg2rad(lng2 - lng1);
+      const a =
+        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+        Math.cos(this.deg2rad(lat1)) * Math.cos(this.deg2rad(lat2)) *
+        Math.sin(dLng / 2) * Math.sin(dLng / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      const distance = R * c * 1000; // Convert to meters
+      return distance;
+    },
+    deg2rad(deg) {
+      return deg * (Math.PI / 180);
+    },
+    handleMarkerClick(index) {
+      console.log('Marker clicked:', index);
+    },
+
+    setPlace(place) {
+      this.currentPlace = place;
+    },
+
+    markerClicked() {
+      // Handle marker click event
+      const lat = this.marker.position.lat;
+      const lng = this.marker.position.lng;
+      const radius = this.calculateDistance(lat, lng, this.center.lat, this.center.lng);
+      console.log('Marker clicked:', lat, lng);
+      console.log(radius);
+    },
+
+    markerDragged(event) {
+      const lat = event.latLng.lat();
+      const lng = event.latLng.lng();
+      this.marker.position = { lat, lng };
+      const radius = this.calculateDistance(lat, lng, this.center.lat, this.center.lng);
+
+      this.Latitude = lat;
+      this.Longitude = lng;
+      this.Radius = radius;
+
+      console.log('Latitude dragged:', lat);
+      console.log('Longitude dragged:', lng);
+      console.log('Radius dragged:', radius);
+    },
+
     async getDataToEdit() {
       this.loading = true;
       try {
@@ -182,8 +290,18 @@ export default {
         this.data.car_plate = response.data.data.user.car.board_number;
         this.data.serial_number = response.data.data.user.car.serial_number;
         this.data.car_type = response.data.data.user.car.carType.title;
-        console.log(response.data.data.user.car.carType.title)
         this.data.car_model = response.data.data.user.car.carCategory.title;
+
+        this.Latitude = response.data.data.user.latitude;
+        this.Longitude = response.data.data.user.longitude;
+
+        this.marker.position.lat = response.data.data.user.latitude;
+        this.marker.position.lng = response.data.data.user.longitude;
+
+        this.center.lat = response.data.data.user.latitude;
+        this.center.lng = response.data.data.user.longitude;
+
+        this.place = response.data.data.user.address;
 
         this.data.id_imge.path = response.data.data.user.car.image;
 

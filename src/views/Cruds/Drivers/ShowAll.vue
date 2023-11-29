@@ -177,6 +177,15 @@
               </button>
             </a-tooltip>
 
+            <a-tooltip placement="bottom" v-if="permissions.show">
+              <template slot="title">
+                <span>{{ $t("PLACEHOLDERS.wallet_driver") }}</span>
+              </template>
+              <button class="btn_show" @click="selectWalletItem(item)">
+                <i class="fas fa-wallet"></i>
+              </button>
+            </a-tooltip>
+
             <template v-else>
               <i class="fal fa-lock-alt fs-5 blue-grey--text text--darken-1"></i>
             </template>
@@ -186,6 +195,22 @@
 
         <!-- ======================== Start:: Dialogs ======================== -->
         <template v-slot:top>
+
+          <!-- Start:: Wallet Modal -->
+          <v-dialog v-model="dialogWallet">
+            <v-card>
+              <v-card-title class="text-h5 justify-center" v-if="itemToWallet">
+                <span>{{ $t('PLACEHOLDERS.current_balance') }} : </span>
+                <span>{{ itemToWallet.user.wallet.balance }}</span>
+              </v-card-title>
+
+              <v-card-actions>
+                <v-btn class="modal_cancel_btn" @click="dialogWallet = false">{{ $t("BUTTONS.cancel") }}</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- End:: Wallet Modal -->
 
           <!-- Start:: Delete Modal -->
           <v-dialog v-model="dialogDelete">
@@ -417,6 +442,8 @@ export default {
       // Start:: Dialogs Control Data
       dialogDelete: false,
       itemToDelete: null,
+      dialogWallet: false,
+      itemToWallet: null,
       // End:: Dialogs Control Data
 
     };
@@ -561,6 +588,11 @@ export default {
       }
     },
     // ===== End:: Delete
+
+    selectWalletItem(item) {
+      this.dialogWallet = true;
+      this.itemToWallet = item;
+    },
     // ==================== End:: Crud ====================
   },
 

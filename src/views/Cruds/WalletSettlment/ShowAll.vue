@@ -360,7 +360,7 @@ export default {
     // Start:: Handel Filter
     async submitFilterForm() {
       if (this.$route.query.page !== '1') {
-        await this.$router.push({ path: '/drivers-join/all', query: { page: 1 } });
+        await this.$router.push({ path: '/wallet-settlment/all', query: { page: 1 } });
       }
       this.setTableRows();
     },
@@ -369,7 +369,7 @@ export default {
       this.filterOptions.providerId = null;
       this.filterOptions.isActive = null;
       if (this.$route.query.page !== '1') {
-        await this.$router.push({ path: '/drivers-join/all', query: { page: 1 } });
+        await this.$router.push({ path: '/wallet-settlment/all', query: { page: 1 } });
       }
       this.setTableRows();
     },
@@ -461,7 +461,7 @@ export default {
     // ==================== Start:: Crud ====================
     // ===== Start:: Show
     showItem(item) {
-      this.$router.push({ path: `/drivers-join/show/${item.user.id}` });
+      this.$router.push({ path: `/wallet-settlment/show/${item.user.id}` });
     },
     // ===== End:: Show
 

@@ -16,26 +16,13 @@
             v-model="data.receiverType" required @input="getUsers" />
           <!-- End:: Receiver Type Input -->
 
-          <base-select-input col="6"
-            v-if="(data.receiverType && data.receiverType.value == 'client') || (data.receiverType && data.receiverType.value == 'provider')"
-            :optionsList="Users" :placeholder="$t('PLACEHOLDERS.choose')" v-model="data.user_types" required multiple />
+          <base-select-input col="6" v-if="(data.receiverType && data.receiverType.value == 'client')"
+            :optionsList="Users" :placeholder="$t('PLACEHOLDERS.client_ask')" v-model="data.user_types" required
+            multiple />
 
-          <!-- <div class="col-6" v-for="(item, index) in data.receiverType" :key="index">
-
-            <div class="row">
-              <base-select-input v-if="users.length && item.value === 'users'" class="col-12" :optionsList="users"
-                :placeholder="$t('TITLES.users')" v-model="data.users" required multiple />
-
-              <base-select-input v-if="stores.length && item.value === 'stores'
-                " class="col-12" :optionsList="stores" :placeholder="$t('TITLES.stores')" v-model="data.stores"
-                required multiple />
-
-              <base-select-input v-if="drivers.length && item.value === 'drivers'
-                " class="col-12" :optionsList="drivers" :placeholder="$t('PLACEHOLDERS.drivers')"
-                v-model="data.drivers" required multiple />
-            </div>
-
-          </div> -->
+          <base-select-input col="6" v-if="(data.receiverType && data.receiverType.value == 'provider')"
+            :optionsList="Users" :placeholder="$t('PLACEHOLDERS.provider_ask')" v-model="data.user_types" required
+            multiple />
 
           <div class="col-12">
             <div class="row">
@@ -139,34 +126,6 @@ export default {
 
     // Start:: validate Form Inputs
     validateFormInputs() {
-      // this.isWaitingRequest = true;
-
-      // if (!this.data.receiverType) {
-      //   this.isWaitingRequest = false;
-      //   this.$message.error(this.$t("VALIDATION.receiverType"));
-      //   return;
-      // } else if (
-      //   this.data.receiverType?.value === "clients" &&
-      //   this.data.clients.length === 0
-      // ) {
-      //   this.isWaitingRequest = false;
-      //   this.$message.error(this.$t("VALIDATION.clientAtLeast"));
-      //   return;
-      // } else if (
-      //   this.data.receiverType?.value === "drivers" &&
-      //   this.data.drivers.length === 0
-      // ) {
-      //   this.isWaitingRequest = false;
-      //   this.$message.error(this.$t("VALIDATION.driverAtLeast"));
-      //   return;
-      // } else if (
-      //   this.data.receiverType?.value === "both" &&
-      //   (this.data.clients.length === 0 || this.data.drivers.length === 0)
-      // ) {
-      //   this.isWaitingRequest = false;
-      //   this.$message.error(this.$t("VALIDATION.clientAndDriver"));
-      //   return;
-      // } 
       if (!this.data.titleAr) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.nameAr"));
@@ -203,6 +162,7 @@ export default {
           REQUEST_DATA.append(`selectedUsers[]`, element.id);
         });
 
+        // if(this.data)
       }
 
       REQUEST_DATA.append("title[ar]", this.data.titleAr);
@@ -246,27 +206,6 @@ export default {
         this.loading = false;
         console.log(error.response.data.message);
       }
-    },
-
-    getMethods() {
-
-      this.data.receiverType.forEach((ele) => {
-
-        if (ele.value === "users") {
-          // this.data.users = [];
-          this.getUsers();
-        } else if (ele.value === "drivers") {
-          // this.data.drivers = [];
-          this.getDrivers();
-        } else if (ele.value === "stores") {
-          // this.data.stores = [];
-          this.getStores();
-        } else {
-          ele.value = null;
-        }
-      })
-
-
     },
 
     // End:: Set Table Rows

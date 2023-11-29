@@ -138,7 +138,7 @@
               </button>
             </a-tooltip>
 
-            <template v-if="permissions.activiate">
+            <template v-if="permissions.update">
 
               <a-tooltip placement="bottom">
                 <template slot="title">
@@ -519,6 +519,7 @@ export default {
         // this.dialogDelete = false;
         this.setTableRows();
         this.$message.success(this.$t("MESSAGES.verifiedSuccessfully"));
+        this.$router.push({ path: `/drivers/all` });
       } catch (error) {
         this.dialogDelete = false;
         this.$message.error(error.response.data.message);

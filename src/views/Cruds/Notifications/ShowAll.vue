@@ -244,13 +244,13 @@ export default {
           align: "center",
           width: "150",
         },
-        // {
-        //   text: this.$t("TABLES.Notifications.time"),
-        //   value: "actions",
-        //   sortable: false,
-        //   align: "center",
-        //   width: "150"
-        // },
+        {
+          text: this.$t("TABLES.Notifications.time"),
+          value: "actions",
+          sortable: false,
+          align: "center",
+          width: "150"
+        },
       ],
       tableRows: [],
       // End:: Table Data
