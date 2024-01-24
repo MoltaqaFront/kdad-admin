@@ -2,7 +2,7 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("TITLES.showNotification") }}</h4>
+      <h4>{{ $t("PLACEHOLDERS.view_notification_details") }}</h4>
     </div>
     <!-- End:: Title -->
 

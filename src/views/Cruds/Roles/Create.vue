@@ -11,8 +11,7 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
           <!-- Start:: Name Input -->
-          <base-input type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name" required
-            @input="removeArabicCharacters" />
+          <base-input type="text" :placeholder="$t('PLACEHOLDERS.name')" v-model.trim="data.name" required />
           <!-- End:: Name Input -->
 
           <!-- Start:: Permissions -->
@@ -26,12 +25,12 @@
 
               <div v-for="permission in AllPermissions" :key="permission.id" class="col-md-6">
                 <div class="permission_card_wrapper">
-                  <p class="card_title"> {{ permission.parent_key }} </p>
+                  <p class="card_title"> {{ permission.title }} </p>
                   <div class="card_body">
                     <div class="row">
                       <div v-for="item in permission.permissions" :key="item.id" class="col-6">
                         <div class="input_wrapper switch_wrapper my-5">
-                          <v-switch color="green" :label="item.name" :value="item.name" v-model="data.permissions"
+                          <v-switch color="green" :label="item.name_title" :value="item.name" v-model="data.permissions"
                             hide-details></v-switch>
                           <!-- @click="handleSwitchChange(permission)" -->
                         </div>

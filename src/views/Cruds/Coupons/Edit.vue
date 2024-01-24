@@ -10,23 +10,23 @@
     <div class="single_step_form_content_wrapper">
       <form @submit.prevent="submitForm">
         <div class="row">
-          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameAr')" v-model.trim="data.name_ar" required
-             />
+          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameAr')" v-model.trim="data.name_ar"
+            required />
           <!-- End:: code Input -->
 
           <!-- Start:: code Input -->
-          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameEn')" v-model.trim="data.name_en" required
-           />
+          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameEn')" v-model.trim="data.name_en"
+            required />
           <!-- End:: code Input -->
 
-            <!-- Start:: code Input -->
-            <!-- <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.code')" v-model.trim="data.code" required
+          <!-- Start:: code Input -->
+          <!-- <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.code')" v-model.trim="data.code" required
             readonly /> -->
           <!-- End:: code Input -->
 
           <!-- Start:: Percentage Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.discountPercentage')"
-            v-model.trim="data.value" required />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.discountPercentage')" v-model.trim="data.value"
+            required />
           <!-- End:: value Input -->
 
           <!-- Start:: Using Number Input -->
@@ -151,7 +151,7 @@ export default {
     validateFormInputs() {
       this.isWaitingRequest = true;
 
-        if (!this.data.percentage) {
+      if (!this.data.percentage) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.percentage"));
         return;
@@ -197,12 +197,13 @@ export default {
       REQUEST_DATA.append("value", this.data.value);
       REQUEST_DATA.append("usage_times", this.data.usingNumber);
       REQUEST_DATA.append("value_type", this.data.value_type);
+      REQUEST_DATA.append("_method", "PUT");
       // REQUEST_DATA.code = this.data.code;
       // Start:: Append Request Data
 
       try {
         await this.$axios({
-          method: "PUT",
+          method: "POST",
           url: `modules/coupon-client/${this.id}`,
           data: REQUEST_DATA,
         });

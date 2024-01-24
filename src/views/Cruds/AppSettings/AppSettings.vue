@@ -6,8 +6,7 @@
         <div class="row">
 
           <!-- Start:: Tax Percentage Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.taxPercentage')"
-            v-model.trim="data.vat" />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.taxPercentage')" v-model.trim="data.vat" />
           <!-- End:: Tax Percentage Input -->
 
           <!-- Start:: Tax Percentage Input -->
@@ -21,12 +20,12 @@
           <!-- End:: Driver's Daily Orders Amount Input -->
 
           <!-- Start:: Delivery Price Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.notify_load')"
-            v-model.trim="data.notify_load" />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.notify_load')" v-model.trim="data.notify_load" />
           <!-- End:: Delivery Price Input -->
 
           <!-- Start:: Driver's Daily Orders Amount Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.delivery_raduis')" v-model.trim="data.delivery_raduis" />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.delivery_raduis')"
+            v-model.trim="data.delivery_raduis" />
           <!-- End:: Driver's Daily Orders Amount Input -->
 
           <!-- Start:: Driver's Daily Orders Amount Input -->
@@ -98,6 +97,7 @@ export default {
 
       const REQUEST_DATA = new FormData();
       REQUEST_DATA.append("vat", this.data.vat);
+      REQUEST_DATA.append("commetion", this.data.commetion);
       REQUEST_DATA.append("decline_order_after", this.data.decline_order_after);
       REQUEST_DATA.append("notify_load", this.data.notify_load);
       REQUEST_DATA.append("delivery_raduis", this.data.delivery_raduis);
@@ -113,10 +113,10 @@ export default {
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
-        this.$message.success(this.$t("MESSAGES.savedSuccessfully"));
+        this.$message.success(this.$t("MESSAGES.editedSuccessfully"));
       } catch (error) {
         this.isWaitingRequest = false;
-        this.$message.error(error.response.data.errors);
+        this.$message.error(error.response.data.message);
       }
     },
     // End:: Submit Form

@@ -464,7 +464,7 @@ export default {
       REQUEST_DATA.deactive_reason = this.deactivateReason;
       // Start:: Append Request Data
 
-      if (targetItem.is_verified == true) {
+      if (targetItem.is_active == true) {
         this.status_now = 0
       } else {
         this.status_now = 1
@@ -473,7 +473,7 @@ export default {
       try {
         await this.$axios({
           method: "PUT",
-          url: `modules/admin/activate//${targetItem.id}?account_status=${this.status_now}`,
+          url: `modules/admin/activate/${targetItem.id}?account_status=${this.status_now}`,
           data: targetItem.is_active ? REQUEST_DATA : null,
         });
         this.$message.success(this.$t("MESSAGES.changeActivation"));

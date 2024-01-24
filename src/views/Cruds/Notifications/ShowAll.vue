@@ -72,10 +72,10 @@
         </template>
 
         <!-- Start:: Notification Content -->
-        <template v-slot:[`item.message`]="{ item }">
-          <span class="text-danger" v-if="!item.message"> {{ $t("TABLES.noData") }} </span>
+        <template v-slot:[`item.content`]="{ item }">
+          <span class="text-danger" v-if="!item.content"> {{ $t("TABLES.noData") }} </span>
           <div class="actions" v-else>
-            <button class="btn_show" @click="showNotificationModal(item.message)">
+            <button class="btn_show" @click="showNotificationModal(item.content)">
               <i class="fal fa-file-alt"></i>
             </button>
           </div>
@@ -99,11 +99,8 @@
           <span class="text-danger" v-if="!item.targets.length"> {{ $t("TABLES.noData") }} </span>
           <div class="actions" v-else>
             <div v-for="(target, index) in item.targets" :key="'p' + index">
-              <v-chip v-if="target.name === 'client'" color="deep-purple darken-1" text-color="white" small>
-                {{ $t("PLACEHOLDERS.client_ask") }}
-              </v-chip>
-              <v-chip v-else-if="target.name === 'provider'" color="blue-grey darken-1" text-color="white" small>
-                {{ $t("PLACEHOLDERS.provider_ask") }}
+              <v-chip color="deep-purple darken-1" text-color="white" small>
+                {{ target.name }}
               </v-chip>
               <!-- <v-chip v-else-if="item.sender_type === 'both'" color="info" text-color="white" small>
                 {{ $t("PLACEHOLDERS.both") }}
@@ -126,6 +123,24 @@
               </button>
             </a-tooltip>
 
+            <a-tooltip placement="bottom">
+              <template slot="title">
+                <span>{{ $t("BUTTONS.edit") }}</span>
+              </template>
+              <button class="btn_edit" @click="editItem(item)">
+                <i class="fal fa-edit"></i>
+              </button>
+            </a-tooltip>
+
+            <a-tooltip placement="bottom" v-if="permissions.destroy">
+              <template slot="title">
+                <span>{{ $t("BUTTONS.delete") }}</span>
+              </template>
+              <button class="btn_delete" @click="selectDeleteItem(item)">
+                <i class="fal fa-trash-alt"></i>
+              </button>
+            </a-tooltip>
+
           </div>
         </template>
         <!-- End:: Actions -->
@@ -136,6 +151,24 @@
           <description-modal v-if="dialogNotification" :modalIsOpen="dialogNotification"
             :modalDesc="selectedNotificationTextToShow" @toggleModal="dialogNotification = !dialogNotification" />
           <!-- End:: Notification Modal -->
+
+          <!-- Start:: Delete Modal -->
+          <v-dialog v-model="dialogDelete">
+            <v-card>
+              <v-card-title class="text-h5 justify-center" v-if="itemToDelete">
+                {{ $t("TITLES.DeleteConfirmingMessage", { name: itemToDelete.title }) }}
+              </v-card-title>
+              <v-card-actions>
+                <v-btn class="modal_confirm_btn" @click="confirmDeleteItem">{{
+                  $t("BUTTONS.ok")
+                }}</v-btn>
+
+                <v-btn class="modal_cancel_btn" @click="dialogDelete = false">{{ $t("BUTTONS.cancel") }}</v-btn>
+                <v-spacer></v-spacer>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <!-- End:: Delete Modal -->
         </template>
         <!-- ======================== End:: Dialogs ======================== -->
       </v-data-table>
@@ -222,7 +255,7 @@ export default {
         },
         {
           text: this.$t("TABLES.Notifications.notification"),
-          value: "message",
+          value: "content",
           align: "center",
           width: "115",
         },
@@ -258,6 +291,14 @@ export default {
       // Start:: Dialogs Control Data
       dialogNotification: false,
       selectedNotificationTextToShow: "",
+      // End:: Dialogs Control Data
+      // Start:: Dialogs Control Data
+      dialogImage: false,
+      selectedItemImage: null,
+      dialogDescription: false,
+      selectedDescriptionTextToShow: "",
+      dialogDelete: false,
+      itemToDelete: null,
       // End:: Dialogs Control Data
 
       // Start:: Pagination Data
@@ -350,7 +391,35 @@ export default {
     showItem(item) {
       this.$router.push({ path: `/all-notifications/show/${item.id}` });
     },
+    editItem(item) {
+      this.$router.push({ path: `/all-notifications/edit/${item.id}` });
+    },
     // ===== End:: Show
+
+    // ===== Start:: Delete
+    selectDeleteItem(item) {
+      this.dialogDelete = true;
+      this.itemToDelete = item;
+    },
+    async confirmDeleteItem() {
+      try {
+        await this.$axios({
+          method: "DELETE",
+          url: `modules/notification/${this.itemToDelete.id}`,
+        });
+        this.dialogDelete = false;
+        this.tableRows = this.tableRows.filter((item) => {
+          return item.id != this.itemToDelete.id;
+        });
+        this.setTableRows();
+        this.$message.success(this.$t("MESSAGES.deletedSuccessfully"));
+      } catch (error) {
+        this.dialogDelete = false;
+        this.$message.error(error.response.data.message);
+      }
+    },
+    // ===== End:: Delete
+
   },
 
   created() {

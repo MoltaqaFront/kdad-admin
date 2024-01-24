@@ -551,7 +551,7 @@ export default {
           url: `modules/provider/activate/${targetItem.user.id}?account_status=${this.status_now}`,
           data: targetItem.user.account_status ? REQUEST_DATA : null,
         });
-        this.$message.success(this.$t("MESSAGES.changeActivation"));
+        
         this.setTableRows();
         this.itemToChangeActivationStatus = null;
         this.deactivateReason = null;

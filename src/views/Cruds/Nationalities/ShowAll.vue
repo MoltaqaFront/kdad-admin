@@ -246,8 +246,14 @@ export default {
           sortable: false,
         },
         {
-          text: this.$t("TABLES.StoresTypes.name"),
-          value: "nationality",
+          text: this.$t("PLACEHOLDERS.nationality_ar"),
+          value: "nationality_ar",
+          sortable: false,
+          align: "center",
+        },
+        {
+          text: this.$t("PLACEHOLDERS.nationality_en"),
+          value: "nationality_en",
           sortable: false,
           align: "center",
         },
@@ -268,7 +274,7 @@ export default {
           sortable: false,
           width: "120",
         },
-        
+
 
         {
           text: this.$t("TABLES.StoresTypes.actions"),

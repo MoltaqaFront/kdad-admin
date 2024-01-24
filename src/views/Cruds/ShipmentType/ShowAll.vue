@@ -236,12 +236,19 @@ export default {
           value: "id",
           align: "center",
           width: "80",
-          sortable: true,
+          sortable: false,
         },
         {
-          text: this.$t("TABLES.StoresTypes.name"),
-          value: "title",
+          text: this.$t("PLACEHOLDERS.Shipment_main_type_ar"),
+          value: "title_ar",
           align: "center",
+          sortable: false,
+        },
+        {
+          text: this.$t("PLACEHOLDERS.Shipment_main_type_en"),
+          value: "title_en",
+          align: "center",
+          sortable: false,
         },
 
         {
@@ -249,6 +256,7 @@ export default {
           value: "is_active",
           align: "center",
           width: "120",
+          sortable: false,
         },
 
         {
@@ -256,6 +264,7 @@ export default {
           value: "created_at",
           align: "center",
           width: "120",
+          sortable: false,
         },
 
         {

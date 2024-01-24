@@ -97,7 +97,6 @@ import EditNationalities from "../views/Cruds/Nationalities/Edit.vue";
 import ShowNationalities from "../views/Cruds/Nationalities/Show.vue";
 // ============== End:: Regions  Routes
 
-
 // ============== Start:: States  Routes
 import BanksHome from "../views/Cruds/Banks/Home.vue";
 import AllBanks from "../views/Cruds/Banks/ShowAll.vue";
@@ -105,7 +104,6 @@ import CreateBanks from "../views/Cruds/Banks/Create.vue";
 import EditBanks from "../views/Cruds/Banks/Edit.vue";
 import ShowBanks from "../views/Cruds/Banks/Show.vue";
 // ============== End:: Regions  Routes
-
 
 // ============== Start:: Occasions  Routes
 import OccasionsHome from "../views/Cruds/Occasions/Home.vue";
@@ -169,8 +167,6 @@ import ShowShipmentType from "../views/Cruds/ShipmentType/Show.vue";
 import EditShipmentType from "../views/Cruds/ShipmentType/Edit.vue";
 // ============== End::ShipmentType Routes
 
-
-
 // ============== Start::ShipmentType Routes
 import ShipmentSubTypeHome from "../views/Cruds/ShipmentSubType/Home.vue";
 import AllShipmentSubType from "../views/Cruds/ShipmentSubType/ShowAll.vue";
@@ -178,8 +174,6 @@ import CreateShipmentSubType from "../views/Cruds/ShipmentSubType/Create.vue";
 import ShowShipmentSubType from "../views/Cruds/ShipmentSubType/Show.vue";
 import EditShipmentSubType from "../views/Cruds/ShipmentSubType/Edit.vue";
 // ============== End::ShipmentType Routes
-
-
 
 // ============== Start:: CarModals Routes
 import CarModalsHome from "../views/Cruds/CarModals/Home.vue";
@@ -233,7 +227,6 @@ import ShowFAQ from "../views/Cruds/FAQ/Show.vue";
 import EditFAQ from "../views/Cruds/FAQ/Edit.vue";
 // ============== End:: Ads Routes
 
-
 // ============== Start:: Contact Messages Routes
 import ContactMessagesHome from "../views/Cruds/ContactMessages/Home.vue";
 import AllContactMessages from "../views/Cruds/ContactMessages/ShowAll.vue";
@@ -272,8 +265,11 @@ import ShowAdmin from "../views/Cruds/Admins/Show.vue";
 import NotificationsHome from "../views/Cruds/Notifications/Home.vue";
 import AllNotifications from "../views/Cruds/Notifications/ShowAll.vue";
 import CreateNotifications from "../views/Cruds/Notifications/Create.vue";
+import ShowNotifications from "../views/Cruds/Notifications/Show.vue";
+import EditNotifications from "../views/Cruds/Notifications/Edit.vue";
 // ============== End:: All Notifications Routes
 
+import AllNotificationsHome from "../views/Notifications/AllNotifications.vue";
 // ============== Start:: WalletSettlment Routes
 import WalletSettlmentHome from "../views/Cruds/WalletSettlment/Home.vue";
 import AllWalletSettlment from "../views/Cruds/WalletSettlment/ShowAll.vue";
@@ -813,7 +809,6 @@ const routes = [
       },
       // End:: ShipmentTypeHome Config
 
-
       // Start:: ShipmentSubTypeHome  Config
       {
         path: "/shipment-sub-type",
@@ -860,8 +855,6 @@ const routes = [
         ],
       },
       // End:: ShipmentTypeHome Config
-
-
 
       // Start:: CarModals  Config
       {
@@ -957,10 +950,8 @@ const routes = [
       },
       // End:: nationalities Config
 
-
-
-       // Start:: nationalities  Config
-       {
+      // Start:: nationalities  Config
+      {
         path: "/banks",
         name: "BanksHome",
         component: BanksHome,
@@ -1076,6 +1067,17 @@ const routes = [
       },
       // End:: packages Reports Routes Config
 
+      // Start:: Packages Reports Routes Config
+      {
+        path: "/all-notifications-page",
+        name: "AllNotificationsHome",
+        component: AllNotificationsHome,
+        meta: {
+          middleware: [auth],
+        }
+      },
+      // End:: packages Reports Routes Config
+
       // Start:: occasions  Config
       {
         path: "/occasions",
@@ -1123,7 +1125,7 @@ const routes = [
       },
       // End:: occasions Config
 
- // Start:: WalletSettlment Routes Config
+      // Start:: WalletSettlment Routes Config
       {
         path: "/wallet-settlment",
         name: "WalletSettlmentHome",
@@ -1142,9 +1144,7 @@ const routes = [
           },
         ],
       },
-// End:: WalletSettlmen Routes Config
-
-
+      // End:: WalletSettlmen Routes Config
 
       // Start:: Offers Routes Config
       {
@@ -1287,9 +1287,8 @@ const routes = [
       },
       // End:: Ads Config
 
-
-       // Start:: faq  Config
-       {
+      // Start:: faq  Config
+      {
         path: "/FAQ",
         name: "FAQ",
         component: FAQHome,
@@ -1489,52 +1488,52 @@ const routes = [
       },
       // End:: Coupons Config
 
-         // Start:: Coupons-pro Config
-        {
-          path: "/couponspro",
-          name: "CouponsProHome",
-          component: CouponsProHome,
-          meta: {
-            middleware: [auth],
-          },
-          children: [
-            {
-              path: "all",
-              name: "AllCouponsPro",
-              component: AllCouponsPro,
-              meta: {
-                middleware: [auth],
-              },
-            },
-            {
-              path: "create",
-              name: "CreateCouponPro",
-              component: CreateCouponPro,
-              meta: {
-                middleware: [auth],
-              },
-            },
-            {
-              path: "edit/:id",
-              name: "EditCouponPro",
-              component: EditCouponPro,
-              props: true,
-              meta: {
-                middleware: [auth],
-              },
-            },
-            {
-              path: "show/:id",
-              name: "ShowCouponPro",
-              component: ShowCouponPro,
-              props: true,
-              meta: {
-                middleware: [auth],
-              },
-            },
-          ],
+      // Start:: Coupons-pro Config
+      {
+        path: "/couponspro",
+        name: "CouponsProHome",
+        component: CouponsProHome,
+        meta: {
+          middleware: [auth],
         },
-        // End:: Coupons-pro Config
+        children: [
+          {
+            path: "all",
+            name: "AllCouponsPro",
+            component: AllCouponsPro,
+            meta: {
+              middleware: [auth],
+            },
+          },
+          {
+            path: "create",
+            name: "CreateCouponPro",
+            component: CreateCouponPro,
+            meta: {
+              middleware: [auth],
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditCouponPro",
+            component: EditCouponPro,
+            props: true,
+            meta: {
+              middleware: [auth],
+            },
+          },
+          {
+            path: "show/:id",
+            name: "ShowCouponPro",
+            component: ShowCouponPro,
+            props: true,
+            meta: {
+              middleware: [auth],
+            },
+          },
+        ],
+      },
+      // End:: Coupons-pro Config
 
       // Start:: Contact Messages Routes Config
       {
@@ -1737,6 +1736,22 @@ const routes = [
             path: "create",
             name: "CreateNotificationss",
             component: CreateNotifications,
+            meta: {
+              middleware: [auth],
+            },
+          },
+          {
+            path: "show/:id",
+            name: "ShowNotificationss",
+            component: ShowNotifications,
+            meta: {
+              middleware: [auth],
+            },
+          },
+          {
+            path: "edit/:id",
+            name: "EditNotificationss",
+            component: EditNotifications,
             meta: {
               middleware: [auth],
             },

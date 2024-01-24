@@ -292,14 +292,14 @@ export default {
         this.data.car_type = response.data.data.user.car.carType.title;
         this.data.car_model = response.data.data.user.car.carCategory.title;
 
-        this.Latitude = response.data.data.user.latitude;
-        this.Longitude = response.data.data.user.longitude;
+        this.Latitude = +response.data.data.user.latitude;
+        this.Longitude = +response.data.data.user.longitude;
 
-        this.marker.position.lat = response.data.data.user.latitude;
-        this.marker.position.lng = response.data.data.user.longitude;
+        this.marker.position.lat = +response.data.data.user.latitude;
+        this.marker.position.lng = + response.data.data.user.longitude;
 
-        this.center.lat = response.data.data.user.latitude;
-        this.center.lng = response.data.data.user.longitude;
+        this.center.lat = +response.data.data.user.latitude;
+        this.center.lng = +response.data.data.user.longitude;
 
         this.place = response.data.data.user.address;
 

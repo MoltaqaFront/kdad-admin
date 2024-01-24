@@ -170,7 +170,6 @@
       "descriptionEn": "Description English",
       "address_detailsAr": "Address details in Arabic",
       "address_detailsEn": "Address details in English"
-
     },
     "FinancialReports": {
       "serialNumber": "Serial",
@@ -420,7 +419,6 @@
     "all": "All",
     "used": "Used",
     "notused": "Not Used"
-  
   },
 
   "CHARTS": {
@@ -488,7 +486,7 @@
     "userAddresses": "User Addresses",
 
     "drivers": "Drivers",
-  
+
     "addDriver": "Add New Driver",
     "editDriver": "Edit Driver",
     "editBank": "Edit Bank",
@@ -815,10 +813,13 @@
     "required_item": "required",
     "radius": "Radius",
     "nationality": "nationality",
+
+    "nationality_ar": "nationality Name in Arabic",
+    "nationality_en": "nationality Name in English",
+
     "Nationalities": "Nationalities",
     "All_Nationalities": "All Nationalities",
     "add_nationality": "Add Nationality",
-
 
     "banks": "Banks",
     "bankName": "Bank Name",
@@ -881,14 +882,18 @@
     "show_car_type": "Show Car Type",
     "edit_car_type": "Edit Car Type",
 
-
     "Shipment_Types": "Shipment Types",
     "Shipment_maim_Types": "Main Shipments",
     "Shipment_Sub_Types": "Sub Shipments",
     "Shipment_type": "Shipment Type",
     "Shipment_sub_type": "Sub-shipment type",
+
     "Shipment_sub_type_ar": "Sub-shipment type in Arabic",
     "Shipment_sub_type_en": "Sub-shipment type in English",
+
+    "Shipment_main_type_ar": "main-shipment type in Arabic",
+    "Shipment_main_type_en": "main-shipment type in English",
+
     "Shipment_main_type": "Main shipment type",
     "show_Shipment_main_type": "Show shipment type",
     "add_Shipment_type": "Add Shipment Type",
@@ -967,7 +972,20 @@
     "question_en": "Question in English",
     "answer_ar": "Answer in Arabic",
     "answer_en": "Answer in English",
-    "used_s_options": "Used Status"
+    "used_s_options": "Used Status",
+    "current_balance": "Current Balance",
+
+    "membership_request_rejected": "Membership Request will be Rejected",
+    "enter_settlement_amount": "Enter Settlement Amount",
+    "qr": "Qr Code",
+    "type": "Type",
+    "edit_question": "Edit Question",
+    "view_question": "View Question",
+
+    "view_notification_details": "View Notification Details",
+    "edit_notification_details": "Edit Notification Details",
+    "wallet_driver": "Wallet Diver",
+    "no_notifications": "No Notifications"
   },
 
   "VALIDATION": {
@@ -1040,6 +1058,7 @@
     "savedSuccessfully": "Saved Successfully",
     "accept_join": "Accept Join",
     "reject_join": "Reject Join",
-    "reject_join_message": "Join Rejected"
+    "reject_join_message": "Join Rejected",
+    "filter_denied": "Filter Denied"
   }
 }

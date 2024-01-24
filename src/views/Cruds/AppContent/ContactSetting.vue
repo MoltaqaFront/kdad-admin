@@ -4,32 +4,26 @@
     <div class="single_step_form_content_wrapper">
       <form @submit.prevent="submitForm">
         <div class="row">
-    <div class="input-repeater">
-      <div class="inner-button-repeat" v-for="(phone, index) in phoneNumbers" :key="index">
-      <base-input
-        col="12"
-        type="tel"
-        :placeholder="$t('PLACEHOLDERS.phone')"
-        v-model.trim="phoneNumbers[index]"
-      />
-      <button class="remove-repeater" type="button" v-if="phoneNumbers.length > 1" @click="removePhoneNumber(index)">-</button>
-    </div>
-    <button class="add-repeater" type="button" @click="addPhoneNumber">+</button>
-    </div>
+          <div class="input-repeater">
+            <div class="inner-button-repeat" v-for="(phone, index) in phoneNumbers" :key="index">
+              <base-input col="12" type="tel" :placeholder="$t('PLACEHOLDERS.phone')"
+                v-model.trim="phoneNumbers[index]" />
+              <button class="remove-repeater" type="button" v-if="phoneNumbers.length > 1"
+                @click="removePhoneNumber(index)">-</button>
+            </div>
+            <button class="add-repeater" type="button" @click="addPhoneNumber">+</button>
+          </div>
 
           <!-- Start:: Tax Percentage Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.whats_num')"
-            v-model.trim="data.whats_phone" />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.whats_num')" v-model.trim="data.whats_phone" />
           <!-- End:: Tax Percentage Input -->
 
           <!-- Start:: Tax Percentage Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.facebook')"
-            v-model.trim="data.facebook" />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.facebook')" v-model.trim="data.facebook" />
           <!-- End:: Tax Percentage Input -->
 
           <!-- Start:: Delivery Price Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.instagram')"
-            v-model.trim="data.instagram" />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.instagram')" v-model.trim="data.instagram" />
           <!-- End:: Delivery Price Input -->
 
           <!-- Start:: Driver's Daily Orders Amount Input -->
@@ -98,12 +92,12 @@ export default {
     // End:: Get Data To Edit
 
     // Start:: Submit Form
-    submitForm() {
+    async submitForm() {
       this.isWaitingRequest = !this.isWaitingRequest;
 
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
-      this.phoneNumbers.forEach((element,index) => {
+      this.phoneNumbers.forEach((element, index) => {
         REQUEST_DATA.append(`mobile[${index}]`, element);
       });
       REQUEST_DATA.append("mobile_whatsapp", this.data.whats_phone);
@@ -115,11 +109,12 @@ export default {
       // Start:: Append Request Data
 
       try {
-        this.$axios({
+        await this.$axios({
           method: "POST",
           url: `modules/app-content/1`,
           data: REQUEST_DATA,
         });
+        this.getDataToEdit();
         this.isWaitingRequest = false;
         this.$message.success(this.$t("MESSAGES.savedSuccessfully"));
       } catch (error) {
@@ -157,42 +152,44 @@ export default {
 };
 </script>
 <style>
-.inner-button-repeat{
+.inner-button-repeat {
   position: relative;
   max-width: 95%;
 }
 
 button.add-repeater {
-    position: relative;
-    right: 50%;
-    bottom: 12px;
-    background: var(--main_theme_clr);
-    border-radius: 50%;
-    font-size: 46px;
-    height: 37px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    padding-bottom: 10px;
-    color: white;
+  position: relative;
+  right: 50%;
+  bottom: 12px;
+  background: var(--main_theme_clr);
+  border-radius: 50%;
+  font-size: 46px;
+  height: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  padding-bottom: 10px;
+  color: white;
 }
+
 .input-repeater {
-    overflow: hidden;
+  overflow: hidden;
 }
+
 button.remove-repeater {
-    position: absolute;
-    left: -45px;
-    top: 22%;
-    background: red;
-    border-radius: 50%;
-    font-size: 46px;
-    height: 37px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 36px;
-    padding-bottom: 10px;
-    color: white;
+  position: absolute;
+  left: -45px;
+  top: 22%;
+  background: red;
+  border-radius: 50%;
+  font-size: 46px;
+  height: 37px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 36px;
+  padding-bottom: 10px;
+  color: white;
 }
 </style>

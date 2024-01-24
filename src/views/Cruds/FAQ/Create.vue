@@ -2,7 +2,7 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("TITLES.editStoreType") }}</h4>
+      <h4>{{ $t("BUTTONS.addfaq") }}</h4>
     </div>
     <!-- End:: Title -->
 
@@ -10,6 +10,10 @@
     <div class="single_step_form_content_wrapper">
       <form @submit.prevent="validateFormInputs">
         <div class="row">
+          <!-- Start:: Image Upload Input -->
+          <!-- <base-select-input col="7" :optionsList="data.types" :placeholder="$t('PLACEHOLDERS.type')"
+            v-model.trim="data.type" /> -->
+          <!-- End:: Ar Name Input -->
           <!-- Start:: Image Upload Input -->
           <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.question_ar')" v-model.trim="data.nameAr" />
           <!-- End:: Ar Name Input -->
@@ -76,12 +80,30 @@ export default {
         descAr: null,
         descEn: null,
         active: true,
+        type: null,
+        types: []
       },
       // End:: Data Collection To Send
     };
   },
 
   methods: {
+
+    // Start:: Get Data To Edit
+    async getTypes() {
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: `modules/faq/types`,
+        });
+        // Start:: Set Data
+        this.data.types = res.data.data.types;
+        // End:: Set Data
+      } catch (error) {
+        console.log(error.response.data.message);
+      }
+    },
+    // End:: Get Data To Edit
 
     // Start:: Select Upload Image
     selectImage(selectedImage) {
@@ -92,7 +114,7 @@ export default {
     // Start:: validate Form Inputs
     validateFormInputs() {
       this.isWaitingRequest = true;
-    if (!this.data.nameAr) {
+      if (!this.data.nameAr) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.nameAr"));
         return;
@@ -114,6 +136,7 @@ export default {
       if (this.data.image.file) {
         REQUEST_DATA.append("image", this.data.image.file);
       }
+      // REQUEST_DATA.append("type", this.data.type.key);
       REQUEST_DATA.append("question[ar]", this.data.nameAr);
       REQUEST_DATA.append("question[en]", this.data.nameEn);
       REQUEST_DATA.append("answer[ar]", this.data.descAr);
@@ -129,7 +152,7 @@ export default {
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
-        this.$message.success(this.$t("MESSAGES.editedSuccessfully"));
+        this.$message.success(this.$t("MESSAGES.addedSuccessfully"));
         this.$router.push({ path: "/FAQ/all" });
       } catch (error) {
         this.isWaitingRequest = false;
@@ -141,8 +164,7 @@ export default {
 
   async created() {
     // Start:: Fire Methods
-    await this.$store.dispatch("PermissionsModule/checkRoutePermissions", "storesTypes edit");
-    this.getDataToEdit();
+    this.getTypes();
     // End:: Fire Methods
   },
 };

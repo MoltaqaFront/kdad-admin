@@ -26,8 +26,8 @@
               v-model="data.is_active" hide-details></v-switch>
           </div>
 
-        <!-- Start:: Submit Button Wrapper -->
-        <div class="btn_wrapper">
+          <!-- Start:: Submit Button Wrapper -->
+          <div class="btn_wrapper">
             <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
               :disabled="isWaitingRequest" />
           </div>
@@ -142,7 +142,7 @@ export default {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
       if (this.data.image.file) {
-      REQUEST_DATA.append("logo", this.data.image.file);
+        REQUEST_DATA.append("logo", this.data.image.file);
       }
       REQUEST_DATA.append("name[ar]", this.data.nameAr);
       REQUEST_DATA.append("name[en]", this.data.nameEn);
@@ -159,7 +159,7 @@ export default {
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
-        this.$message.success(this.$t("MESSAGES.addedSuccessfully"));
+        this.$message.success(this.$t("MESSAGES.editedSuccessfully"));
         this.$router.push({ path: "/Banks/all" });
       } catch (error) {
         this.isWaitingRequest = false;

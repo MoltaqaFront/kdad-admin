@@ -17,7 +17,7 @@
               <base-select-input col="4" :optionsList="allproviders" :placeholder="$t('TABLES.Orders.providername')"
                 v-model="filterOptions.provider_name" required />
 
-                <base-input col="4" type="text" :placeholder="$t('TABLES.FinancialReports.providerPhone')"
+              <base-input col="4" type="text" :placeholder="$t('TABLES.FinancialReports.providerPhone')"
                 v-model="filterOptions.driverPhone" />
 
               <!-- Start:: Start Date Input -->
@@ -60,11 +60,11 @@
 
           <button class="btn_delete" @click="selectPdfItem()">
             {{ $t("PLACEHOLDERS.export_pdf") }}
-            </button>
+          </button>
 
           <button class="btn_delete" @click="selectExcelItem()">
             {{ $t("PLACEHOLDERS.export_excel") }}
-            </button>
+          </button>
 
 
           <!-- <base-button class="mt-0 pdf_btn" styleType="solid_btn" :btnText="$t('BUTTONS.downloadPdf')"
@@ -106,14 +106,14 @@
 
         <template v-slot:[`item.count`]="{ item }">
           <router-link :to="{
-             path: `/orders/all`, 
-             query: {
-              page:1,
+            path: `/orders/all`,
+            query: {
+              page: 1,
               providerId: item.id,
               is_finished: 0
             }
           }">
-            {{ item.count }} 
+            {{ item.count }}
           </router-link>
         </template>
 
@@ -128,7 +128,7 @@
                 <v-btn class="modal_cancel_btn" @click="dialogPdf = false">{{ $t("BUTTONS.cancel") }}</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
-            </v-card> 
+            </v-card>
           </v-dialog>
           <!-- End:: pdf Modal -->
 
@@ -136,8 +136,8 @@
           <v-dialog v-model="dialogExcel">
             <v-card>
               <a class="ex-btn-s" :href="excel" download>
-              {{ $t("PLACEHOLDERS.export_excel") }}
-            </a>
+                {{ $t("PLACEHOLDERS.export_excel") }}
+              </a>
               <v-card-actions>
                 <v-btn class="modal_cancel_btn" @click="dialogExcel = false">{{ $t("BUTTONS.cancel") }}</v-btn>
                 <v-spacer></v-spacer>
@@ -152,13 +152,13 @@
 
       </v-data-table>
       <!--  =========== End:: Data Table =========== -->
-            <!-- ==== Start:: Client Addresses ==== -->
-            <div class="table_content">
-              <div class="table_title_wrapper">
-                <div class="title_text_wrapper">
-                  <h5>{{ $t("PLACEHOLDERS.Overall_statistics") }}</h5>
-                </div>
-              </div>
+      <!-- ==== Start:: Client Addresses ==== -->
+      <div class="table_content">
+        <div class="table_title_wrapper">
+          <div class="title_text_wrapper">
+            <h5>{{ $t("PLACEHOLDERS.Overall_statistics") }}</h5>
+          </div>
+        </div>
         <v-simple-table class="stat-table">
           <template v-slot:default>
             <thead>
@@ -190,7 +190,7 @@
           </template>
         </v-simple-table>
       </div>
-      <!-- ==== End:: Client Addresses ==== --> 
+      <!-- ==== End:: Client Addresses ==== -->
     </main>
     <!-- End:: Main Section -->
 
@@ -430,14 +430,14 @@ export default {
       }
     },
 
-     // ===== Start:: Delete
-     selectPdfItem() {
+    // ===== Start:: Delete
+    selectPdfItem() {
       this.dialogPdf = true;
       this.confirmPdf();
     },
     async confirmPdf() {
       try {
-       let res = await this.$axios({
+        let res = await this.$axios({
           method: "GET",
           url: `modules/financial-report?is_finished=0&export=pdf`,
         });
@@ -454,7 +454,7 @@ export default {
     },
     async confirmExcel() {
       try {
-       let res = await this.$axios({
+        let res = await this.$axios({
           method: "GET",
           url: `modules/financial-report?is_finished=0&export=excel`,
         });
@@ -465,11 +465,10 @@ export default {
         this.$message.error(error.response.data.message);
       }
     },
-    clickedDownload(){
+    clickedDownload() {
       const link = document.createElement('a');
       link.href = this.pdf;
-      console.log(this.href)
-      link.setAttribute('download', 'file.png'); //or any other extension
+      link.setAttribute('download', 'file.pdf'); //or any other extension
       document.body.appendChild(link);
       link.click();
     },
@@ -494,22 +493,23 @@ export default {
 
 <style scoped>
 .ex-btn-s {
-    color: black !important;
-    font-size: 20px;
-    font-weight: bold;
-    text-decoration: underline !important;
-} 
+  color: black !important;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: underline !important;
+}
+
 .all-stat {
-    background: var(--main_theme_clr);
+  background: var(--main_theme_clr);
 }
 
 .all-stat td {
-    color: white;
-    font-size: 21px !important;
-    font-weight: 800;
+  color: white;
+  font-size: 21px !important;
+  font-weight: 800;
 }
 
 .show_all_content_wrapper .v-data-table .v-data-table__wrapper table tbody tr:hover {
-    background: var(--main_theme_clr) !important;
+  background: var(--main_theme_clr) !important;
 }
 </style>

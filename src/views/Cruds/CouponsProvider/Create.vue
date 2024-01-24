@@ -2,7 +2,7 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("TITLES.showCoupon") }}</h4>
+      <h4>{{ $t("TITLES.addCoupon") }}</h4>
     </div>
     <!-- End:: Title -->
 
@@ -11,83 +11,80 @@
       <form @submit.prevent="submitForm">
         <div class="row">
           <!-- Start:: code Input -->
-          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameAr')" v-model.trim="data.name_ar" required
-             />
+          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameAr')" v-model.trim="data.name_ar"
+            required />
           <!-- End:: code Input -->
 
           <!-- Start:: code Input -->
-          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameEn')" v-model.trim="data.name_en" required
-             />
-          <!-- End:: code Input -->
-
-            <!-- Start:: code Input -->
-            <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.code')" v-model.trim="data.code" required
-             />
-          <!-- End:: code Input -->
-
-          
-          <!-- Start:: code Input -->
-          <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.Discount_Points')" v-model.trim="data.percentage" required
-             />
-          <!-- End:: code Input -->
-
-            <!-- Start:: code Input -->
-            <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.store_ar')" v-model.trim="data.store_ar" required
-             />
+          <base-input col="6" type="text" :placeholder="$t('TABLES.ImagesSpaces.nameEn')" v-model.trim="data.name_en"
+            required />
           <!-- End:: code Input -->
 
           <!-- Start:: code Input -->
-          <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.store_en')" v-model.trim="data.store_en" required
-             />
+          <!-- <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.code')" v-model.trim="data.code" required /> -->
+          <!-- End:: code Input -->
+
+
+          <!-- Start:: code Input -->
+          <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.Discount_Points')"
+            v-model.trim="data.percentage" required />
+          <!-- End:: code Input -->
+
+          <!-- Start:: code Input -->
+          <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.store_ar')" v-model.trim="data.store_ar"
+            required />
+          <!-- End:: code Input -->
+
+          <!-- Start:: code Input -->
+          <base-input col="6" type="text" :placeholder="$t('TABLES.Coupons.store_en')" v-model.trim="data.store_en"
+            required />
           <!-- End:: code Input -->
 
           <!-- Start:: Image Upload Input -->
-          <base-image-upload-input col="12" class="show-img" identifier="image" :placeholder="$t('PLACEHOLDERS.storelogo')"
-            @selectImage="selectImage" :preSelectedImage="data.image.path"  />
+          <base-image-upload-input col="12" class="show-img" identifier="image"
+            :placeholder="$t('PLACEHOLDERS.storelogo')" @selectImage="selectImage" :preSelectedImage="data.image.path" />
           <!-- End:: Image Upload Input -->
 
-            <!-- Start:: Ar Desc Textarea -->
-            <base-input col="6" rows="9" type="textarea" :placeholder="$t('TABLES.Coupons.descriptionAr')"
-             v-model.trim="data.descAr" />
+          <!-- Start:: Ar Desc Textarea -->
+          <base-input col="6" rows="9" type="textarea" :placeholder="$t('TABLES.Coupons.descriptionAr')"
+            v-model.trim="data.descAr" />
           <!-- End:: Ar Desc Textarea -->
 
           <!-- Start:: En Desc Textarea -->
           <base-input col="6" rows="9" type="textarea" :placeholder="$t('TABLES.Coupons.descriptionEn')"
-           v-model.trim="data.descEn" />
+            v-model.trim="data.descEn" />
           <!-- End:: En Desc Textarea -->
-          
 
-            <!-- Start:: code Input -->
-            <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.city_ar')" v-model.trim="data.cityAr" required
-             />
+
+          <!-- Start:: code Input -->
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.city_ar')" v-model.trim="data.cityAr" required />
           <!-- End:: code Input -->
 
           <!-- Start:: code Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.city_en')" v-model.trim="data.cityEn" required
-             />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.city_en')" v-model.trim="data.cityEn" required />
           <!-- End:: code Input -->
 
           <!-- Start:: add Desc Textarea -->
-            <base-input col="6" rows="9" type="text" :placeholder="$t('TABLES.Coupons.address_detailsAr')"
-             v-model.trim="data.addAr" />
+          <base-input col="6" rows="9" type="text" :placeholder="$t('TABLES.Coupons.address_detailsAr')"
+            v-model.trim="data.addAr" />
           <!-- End:: Ar Desc Textarea -->
 
           <!-- Start:: add Desc Textarea -->
           <base-input col="6" rows="9" type="text" :placeholder="$t('TABLES.Coupons.address_detailsEn')"
-             v-model.trim="data.addEn" />
+            v-model.trim="data.addEn" />
           <!-- End:: En Desc Textarea -->
-          
+
           <!-- Start:: Deactivate Switch Input -->
           <div class="input_wrapper switch_wrapper my-5">
             <v-switch color="green" :label="data.active ? $t('PLACEHOLDERS.active') : $t('PLACEHOLDERS.notActive')"
-               v-model="data.active" hide-details ></v-switch>
+              v-model="data.active" hide-details></v-switch>
           </div>
           <!-- End:: Deactivate Switch Input -->
-          
-        <!-- Start:: Submit Button Wrapper -->
-        <div class="btn_wrapper">
+
+          <!-- Start:: Submit Button Wrapper -->
+          <div class="btn_wrapper">
             <base-button class="mt-2" styleType="primary_btn" :btnText="$t('BUTTONS.save')" :isLoading="isWaitingRequest"
-               :disabled="isWaitingRequest" />
+              :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -133,9 +130,9 @@ export default {
         percentage: null,
         active: true,
         value_type: "cache",
-        market_latitude : 0,
-        market_longitude  : 0,
-        image:{
+        market_latitude: 0,
+        market_longitude: 0,
+        image: {
           path: null,
           file: null,
         }
@@ -153,23 +150,23 @@ export default {
   },
 
   methods: {
-    
+
     // Start:: Vuex Actions
     ...mapActions({
       getStores: "ApiGetsModule/getStores",
     }),
     // End:: Vuex Actions
 
-      // Start:: Submit Form
-      async submitForm() {
+    // Start:: Submit Form
+    async submitForm() {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
       if (this.data.image.file) {
-      REQUEST_DATA.append("logo", this.data.image.file);
+        REQUEST_DATA.append("logo", this.data.image.file);
       }
       REQUEST_DATA.append("title[ar]", this.data.name_ar);
       REQUEST_DATA.append("title[en]", this.data.name_en);
-      REQUEST_DATA.append("code", this.data.code);
+      // REQUEST_DATA.append("code", this.data.code);
       REQUEST_DATA.append("market_name[ar]", this.data.store_ar);
       REQUEST_DATA.append("market_name[en]", this.data.store_en);
       REQUEST_DATA.append("description[ar]", this.data.descAr);
@@ -184,7 +181,7 @@ export default {
       REQUEST_DATA.append("value_type", this.data.value_type);
       REQUEST_DATA.append("is_active", +this.data.active);
       REQUEST_DATA.append("value_type", "point");
-      
+
       REQUEST_DATA.append("_method", "POST");
 
       try {
@@ -234,7 +231,7 @@ export default {
     // End:: Get Data To Edit
 
     // Start:: Select Upload Image
-        selectImage(selectedImage) {
+    selectImage(selectedImage) {
       if (selectedImage.identifier === "image") {
         this.data.image = selectedImage;
         console.log(this.data.logo)

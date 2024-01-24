@@ -70,7 +70,7 @@
       "showAll": "كل الكوبونات",
       "add": "إضافة كوبون جديد"
     },
-    
+
     "ContactMessages": {
       "title": "رسائل التواصل",
       "showAll": "كل رسائل التواصل"
@@ -375,7 +375,7 @@
       "orderprice": "اجمالي سعر الطلب",
       "orderStatus": "حالة الطلب",
       "actions": "التحكم"
-    }, 
+    },
     "Faq": {
       "question": "السؤال",
       "answer": "الإجابة",
@@ -419,7 +419,6 @@
     "all": "الكل",
     "used": "مستخدم",
     "notused": "غير مستخدم"
-   
   },
 
   "CHARTS": {
@@ -822,6 +821,10 @@
     "number_of_people": "عدد الأشخاص",
     "radius": "نصف القطر",
     "nationality": "الجنسية",
+
+    "nationality_ar": " اسم الجنسية بالعربية",
+    "nationality_en": "اسم الجنسية بالانجليزية",
+
     "Nationalities": "الجنسيات",
     "All_Nationalities": "جميع الجنسيات",
     "add_nationality": "اضافة جنسية",
@@ -829,7 +832,6 @@
 
     "banks": "البنوك",
     "bankName": "اسم البنك",
-
 
     "clientName": "إسم العميل",
     "clientType": "نوع العميل",
@@ -879,7 +881,6 @@
     "show_car_type": "عرض نوع السيارة",
     "edit_car_type": "تعديل نوع السيارة",
 
-
     "Shipment_Types": "أنواع الشحنات",
     "Shipment_maim_Types": "الشحنات الرئيسية",
     "Shipment_Sub_Types": "الشحنات الفرعية",
@@ -887,14 +888,16 @@
     "Shipment_sub_type": "نوع الشحنة الفرعي",
     "Shipment_sub_type_ar": "نوع الشحنة الفرعي بالعربية",
     "Shipment_sub_type_en": "نوع الشحنة الفرعي بالانجليزية",
+
+    "Shipment_main_type_ar": "نوع الشحنة الرئيسية بالعربية",
+    "Shipment_main_type_en": "نوع الشحنة الرئيسية بالانجليزية",
+
     "add_Shipment_sub_type": "إضافة نوع شحنة فرعي",
     "Shipment_main_type": "نوع الشحنة الرئيسي",
     "show_Shipment_main_type": "عرض نوع الشحنة الرئيسي",
     "add_Shipment_type": "إضافة شحنة ",
     "show_Shipment_type": "عرض الشحنة",
     "edit_Shipment_type": "تعديل الشحنة",
-
-
 
     "Geographical_scope": "النطاق الجغرافي",
 
@@ -960,14 +963,26 @@
 
     "order_price": "سعر الحجز",
 
-
     "faq": "الأسئلة الشائعة",
     "question_ar": "السؤال بالعربية",
     "question_en": "السؤال بالإنجليزية",
     "answer_ar": "الإجابة بالعربية",
     "answer_en": "الإجابة بالإنجليزية",
-    "used_s_options": "حالة الاستخدام"
+    "used_s_options": "حالة الاستخدام",
+    "current_balance": "الرصيد الحالي",
+    "membership_request_rejected": "سيتم رفض طلب الانضمام",
 
+    "enter_settlement_amount": "ادخال مبلغ التصفية",
+    "qr": "رمز الاستجابة السريع",
+
+    "type": "النوع",
+    "edit_question": "تعديل السؤال",
+    "view_question": "عرض السؤال",
+
+    "view_notification_details": "عرض تفاصيل الإشعار",
+    "edit_notification_details": "تعديل تفاصيل الإشعار",
+    "wallet_driver": "محفظة السائق",
+    "no_notifications": "لا يوجد اشعارات"
   },
 
   "VALIDATION": {
@@ -1040,6 +1055,7 @@
     "savedSuccessfully": "تم الحفظ بنجاح",
     "accept_join": "قبول الانضمام",
     "reject_join": "رفض الانضمام",
-    "reject_join_message": " تم رفض الانضمام"
+    "reject_join_message": " تم رفض الانضمام",
+    "filter_denied": "تم رفض التصفية"
   }
 }

@@ -23,6 +23,21 @@ import "./plugins/googleMaps";
 import "./plugins/formComponents";
 import "./plugins/globalComponents";
 import "./plugins/3rdPartyLibraries";
+
+import firebase from "firebase/app";
+import "firebase/firebase-messaging";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAy5q9MGes19yfEwP7_OHVpEkHgcGmj6-s",
+  authDomain: "kdadeltariq-25e2f.firebaseapp.com",
+  projectId: "kdadeltariq-25e2f",
+  storageBucket: "kdadeltariq-25e2f.appspot.com",
+  messagingSenderId: "1070281269059",
+  appId: "1:1070281269059:web:e1e3946a72534a057359f6",
+  measurementId: "G-68KP3K49L7"
+};
+
+firebase.initializeApp(firebaseConfig);
 // End:: Importing Plugins
 
 // Start:: Set App Lang  & Theme

@@ -204,23 +204,31 @@
           </v-dialog>
           <!-- End:: Deactivate Modal -->
 
-          <!-- Start:: Delete Modal -->
-          <v-dialog v-model="dialogDelete">
+          <!-- Start:: Balance Modal -->
+          <v-dialog v-model="dialogBalance">
             <v-card>
-              <v-card-title class="text-h5 justify-center" v-if="itemToDelete">
-                {{ $t("TITLES.DeleteConfirmingMessage", { name: itemToDelete.name }) }}
+              <v-card-title class="text-h5 justify-center" v-if="itemToBalance">
+                <span>{{ $t('PLACEHOLDERS.current_balance') }} : </span>
+                <span>{{ itemToBalance.balance }}</span>
               </v-card-title>
+
+              <form class="w-100">
+
+                <base-input col="12" type="text" :placeholder="$t('PLACEHOLDERS.balance_package')"
+                  v-model.trim="balance_package" required />
+              </form>
+
               <v-card-actions>
                 <v-btn class="modal_confirm_btn" @click="confirmAcceptItem">{{
                   $t("BUTTONS.ok")
                 }}</v-btn>
 
-                <v-btn class="modal_cancel_btn" @click="dialogDelete = false">{{ $t("BUTTONS.cancel") }}</v-btn>
+                <v-btn class="modal_cancel_btn" @click="dialogBalance = false">{{ $t("BUTTONS.cancel") }}</v-btn>
                 <v-spacer></v-spacer>
               </v-card-actions>
             </v-card>
           </v-dialog>
-          <!-- End:: Delete Modal -->
+          <!-- End:: Balance Modal -->
         </template>
         <!-- ======================== End:: Dialogs ======================== -->
 
@@ -377,6 +385,8 @@ export default {
       deactivateReason: null,
       dialogDelete: false,
       itemToDelete: null,
+      dialogBalance: false,
+      itemToBalance: null,
       // End:: Dialogs Control Data
       status_now: null,
 

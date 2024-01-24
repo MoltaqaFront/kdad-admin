@@ -77,6 +77,11 @@
         </template>
         <!-- Start:: No Data State -->
 
+        <template v-slot:[`item.status.id`]="{ item, index }">
+          <p class="blue-grey--text text--darken-1 fs-3" v-if="!item.status.id">-</p>
+          <p v-else>{{ (paginations.current_page - 1) * paginations.items_per_page + index + 1 }}</p>
+        </template>
+
         <template v-slot:[`item.user.id`]="{ item, index }">
           <h6 class="text-danger" v-if="!item.user.id"> {{ $t("TABLES.noData") }} </h6>
           <h6 v-else> {{ index + 1 }} </h6>
@@ -108,7 +113,7 @@
         <template v-slot:[`item.actions`]="{ item }">
           <div class="actions">
 
-            <template v-if="permissions.update">
+            <template v-if="permissions.update && item.status.key !== 'rejected' && item.status.key !== 'proccessed'">
 
               <a-tooltip placement="bottom">
                 <template slot="title">
@@ -149,7 +154,7 @@
           <v-dialog v-model="dialogDeactivate">
             <v-card>
               <v-card-title class="text-h5 justify-center" v-if="itemToChangeActivationStatus">
-                {{ $t("TITLES.refuseConfirmingOrder", { name: itemToChangeActivationStatus.userName }) }}
+                {{ $t("PLACEHOLDERS.membership_request_rejected", { name: itemToChangeActivationStatus.userName }) }}
               </v-card-title>
 
               <form class="w-100">
@@ -176,12 +181,12 @@
             <v-card>
               <v-card-title class="text-h5 justify-center" v-if="itemToDelete">
                 <span>{{ $t('PLACEHOLDERS.current_balance') }} : </span>
-                <span>{{ itemToDelete.balance }}</span>
+                <span>{{ itemToDelete.userWalletBalance }}</span>
               </v-card-title>
 
               <form class="w-100">
 
-                <base-input col="12" type="text" :placeholder="$t('PLACEHOLDERS.balance_package')"
+                <base-input col="12" type="text" :placeholder="$t('PLACEHOLDERS.enter_settlement_amount')"
                   v-model.trim="balance_package" required />
               </form>
 
@@ -272,7 +277,7 @@ export default {
       tableHeaders: [
         {
           text: this.$t("TABLES.Clients.serialNumber"),
-          value: "id",
+          value: "status.id",
           align: "center",
           width: "80",
           sortable: false,
@@ -285,7 +290,7 @@ export default {
         },
         {
           text: this.$t("TABLES.Orders.orderNumber"),
-          value: "status.id",
+          value: "id",
           align: "center",
           sortable: false,
         },
@@ -399,7 +404,7 @@ export default {
             page: this.paginations.current_page,
             providerId: this.filterOptions.providerId?.id,
             status: this.filterOptions.isActive?.name,
-            code: this.filterOptions.code,
+            id: this.filterOptions.code,
           },
         });
         this.loading = false;
@@ -428,7 +433,7 @@ export default {
       this.dialogDeactivate = false;
 
       const REQUEST_DATA = new FormData();
-      REQUEST_DATA.append("balance", this.itemToChangeActivationStatus.balance);
+      // REQUEST_DATA.append("balance", this.itemToChangeActivationStatus.balance);
       REQUEST_DATA.append("reason", this.deactivateReason);
       REQUEST_DATA.append("is_accepted", 0);
       REQUEST_DATA.append("_method", "PUT");
@@ -440,7 +445,7 @@ export default {
           url: `modules/wallet-settlment/${this.itemToChangeActivationStatus.id}`,
           data: REQUEST_DATA,
         });
-        this.$message.success(this.$t("MESSAGES.reject_join_message"));
+        this.$message.error(this.$t("MESSAGES.filter_denied"));
         this.setTableRows();
         this.itemToChangeActivationStatus = null;
         this.deactivateReason = null;
@@ -473,16 +478,16 @@ export default {
 
       const REQUEST_DATA = new FormData();
       REQUEST_DATA.append("balance", this.balance_package);
-      REQUEST_DATA.append("is_accepted", true);
+      REQUEST_DATA.append("is_accepted", 1);
       REQUEST_DATA.append("_method", "PUT");
 
       try {
         await this.$axios({
           method: "POST",
-          url: `modules/wallet-settlment`,
+          url: `modules/wallet-settlment/${this.itemToDelete.id}`,
           data: REQUEST_DATA,
         });
-        // this.dialogDelete = false;
+        this.dialogDelete = false;
         this.balance_package = null,
           this.setTableRows();
         this.$message.success(this.$t("MESSAGES.verifiedSuccessfully"));

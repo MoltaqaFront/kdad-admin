@@ -51,7 +51,7 @@
           </button>
         </div>
 
-        <div class="title_route_wrapper" v-if="permissions.store">  
+        <div class="title_route_wrapper" v-if="permissions.store">
           <router-link to="/shipment-sub-type/create">
             {{ $t("PLACEHOLDERS.add_Shipment_sub_type") }}
           </router-link>
@@ -85,8 +85,8 @@
         </template>
         <!-- End:: Title -->
 
-          <!-- Start:: Title -->
-          <template v-slot:[`item.shipmentTypeTitle`]="{ item }">
+        <!-- Start:: Title -->
+        <template v-slot:[`item.shipmentTypeTitle`]="{ item }">
           <p class="text-danger" v-if="!item.shipmentTypeTitle"> {{ $t("TABLES.noData") }} </p>
           <p v-else>{{ item.shipmentTypeTitle.name }}</p>
         </template>
@@ -256,8 +256,14 @@ export default {
           sortable: false,
         },
         {
-          text: this.$t("PLACEHOLDERS.Shipment_sub_type"),
-          value: "title",
+          text: this.$t("PLACEHOLDERS.Shipment_sub_type_ar"),
+          value: "title_ar",
+          sortable: false,
+          align: "center",
+        },
+        {
+          text: this.$t("PLACEHOLDERS.Shipment_sub_type_en"),
+          value: "title_en",
           sortable: false,
           align: "center",
         },
@@ -275,7 +281,7 @@ export default {
           width: "120",
         },
         {
-        text: this.$t("TABLES.StoresTypes.date"),
+          text: this.$t("TABLES.StoresTypes.date"),
           value: "created_at",
           align: "center",
           width: "120",

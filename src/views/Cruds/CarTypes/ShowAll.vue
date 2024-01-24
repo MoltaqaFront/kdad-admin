@@ -239,8 +239,13 @@ export default {
           sortable: true,
         },
         {
-          text: this.$t("TABLES.StoresTypes.name"),
-          value: "title",
+          text: this.$t("PLACEHOLDERS.nameAr"),
+          value: "title_ar",
+          align: "center",
+        },
+        {
+          text: this.$t("PLACEHOLDERS.nameEn"),
+          value: "title_en",
           align: "center",
         },
 

@@ -7,38 +7,21 @@
 
     <!-- Start:: Form -->
     <div class="form_wrapper">
-      <form
-        class="mt-4"
-        @submit.prevent="validateFormInputs"
-        autocomplete="off"
-      >
+      <form class="mt-4" @submit.prevent="validateFormInputs" autocomplete="off">
         <div class="row justify-content-center">
           <!-- Start:: Email Input -->
-          <base-input
-            col="7"
-            type="email"
-            :placeholder="$t('PLACEHOLDERS.email')"
-            v-model.trim="loginData.email"
-            required
-          />
+          <base-input col="7" type="email" :placeholder="$t('PLACEHOLDERS.email')" v-model.trim="loginData.email"
+            required />
           <!-- End:: Email Input -->
 
           <!-- Start:: Password Input -->
-          <base-input
-            col="7"
-            type="password"
-            :placeholder="$t('PLACEHOLDERS.password')"
-            v-model.trim="loginData.password"
-            required
-          />
+          <base-input col="7" type="password" :placeholder="$t('PLACEHOLDERS.password')" v-model.trim="loginData.password"
+            required />
           <!-- End:: Password Input -->
 
           <!-- Start:: Forget Password Route -->
           <div class="col-lg-7">
-            <router-link
-              to="/reset-password-email"
-              class="forget_pass_route"
-            >
+            <router-link to="/reset-password-email" class="forget_pass_route">
               {{ $t("BUTTONS.forgetPassword") }}
             </router-link>
           </div>
@@ -46,13 +29,8 @@
 
           <!-- Start:: Submit Button -->
           <div class="col-lg-7 my-5">
-            <base-button
-              class="mt-0 w-100"
-              styleType="primary_btn"
-              :btnText="$t('BUTTONS.login')"
-              :isLoading="isWaitingRequest"
-              :disabled="isWaitingRequest"
-            />
+            <base-button class="mt-0 w-100" styleType="primary_btn" :btnText="$t('BUTTONS.login')"
+              :isLoading="isWaitingRequest" :disabled="isWaitingRequest" />
           </div>
           <!-- End:: Submit Button -->
         </div>
@@ -63,6 +41,9 @@
 </template>
 
 <script>
+
+import firebase from 'firebase/app';
+import 'firebase/messaging';
 import { mapGetters, mapActions } from "vuex";
 
 export default {
@@ -84,6 +65,7 @@ export default {
       loginData: {
         email: null,
         password: null,
+        device_token: null
       },
       // End:: Data Collection To Send
     };
@@ -124,6 +106,7 @@ export default {
       // Start:: Append Request Data (JSON)
       REQUEST_DATA["email"] = this.loginData.email;
       REQUEST_DATA["password"] = this.loginData.password;
+      REQUEST_DATA["CMUUID"] = this.loginData.device_token;
       // End:: Append Request Data (JSON)
 
       try {
@@ -158,6 +141,21 @@ export default {
       this.loginData.password = null;
     },
     // End:: Clear Form Inputs
+    async getFirebaseToken() {
+      const messaging = firebase.messaging();
+      try {
+        const token = await messaging.getToken(); // Get the FCM token
+        this.loginData.device_token = token;
+        // console.log('FCM token:', token);
+      } catch (error) {
+        console.error('Error requesting permission token:', error);
+      }
+    },
+
   },
+
+  mounted() {
+    this.getFirebaseToken();
+  }
 };
 </script>

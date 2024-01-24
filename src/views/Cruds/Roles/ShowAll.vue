@@ -92,13 +92,13 @@
           <td colspan="4" class="fadeIn">
             <div class="cards_wrapper p-4" v-if="item.abilities.length > 0">
               <div v-for="element in item.abilities" :key="element.id" class="content_wrapper">
-                <p class="group_title"> {{ element.parent_key }} </p>
+                <p class="group_title"> {{ element.title }} </p>
 
                 <div class="wrapper">
                   <div class="item_data_card" v-for="permission in element.permissions" :key="permission.id">
                     <div class="card_title">
                       <h5>
-                        {{ permission.name }}
+                        {{ permission.name_title }}
                       </h5>
                     </div>
                   </div>

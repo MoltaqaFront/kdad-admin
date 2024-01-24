@@ -2,30 +2,35 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("TITLES.editStoreType") }}</h4>
+      <h4>{{ $t("PLACEHOLDERS.view_question") }}</h4>
     </div>
     <!-- End:: Title -->
 
     <!-- Start:: Single Step Form Content -->
     <div class="single_step_form_content_wrapper">
       <form @submit.prevent="validateFormInputs">
-        <div class="row"> 
+        <div class="row">
+
+          <!-- <base-input col="7" type="text" :placeholder="$t('PLACEHOLDERS.type')" v-model.trim="data.type" disabled /> -->
+
           <!-- Start:: Ar Name Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.question_ar')" v-model.trim="data.nameAr" disabled />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.question_ar')" v-model.trim="data.nameAr"
+            disabled />
           <!-- End:: Ar Name Input -->
 
           <!-- Start:: En Name Input -->
-          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.question_en')" v-model.trim="data.nameEn" disabled />
+          <base-input col="6" type="text" :placeholder="$t('PLACEHOLDERS.question_en')" v-model.trim="data.nameEn"
+            disabled />
           <!-- End:: En Name Input -->
 
           <!-- Start:: Ar Desc Textarea -->
           <base-input col="6" rows="9" type="textarea" :placeholder="$t('PLACEHOLDERS.answer_ar')"
-            v-model.trim="data.descAr" disabled/>
+            v-model.trim="data.descAr" disabled />
           <!-- End:: Ar Desc Textarea -->
 
           <!-- Start:: En Desc Textarea -->
           <base-input col="6" rows="9" type="textarea" :placeholder="$t('PLACEHOLDERS.answer_en')"
-            v-model.trim="data.descEn" disabled/>
+            v-model.trim="data.descEn" disabled />
           <!-- End:: En Desc Textarea -->
 
         </div>
@@ -62,6 +67,7 @@ export default {
         nameEn: null,
         descAr: null,
         descEn: null,
+        type: null,
         active: true,
       },
       // End:: Data Collection To Send
@@ -81,6 +87,7 @@ export default {
         this.data.nameEn = res.data.data.question_en;
         this.data.descAr = res.data.data.answer_ar;
         this.data.descEn = res.data.data.answer_en;
+        // this.data.type = res.data.data.type.name;
         this.data.active = res.data.body.main_category.is_active;
         // End:: Set Data
       } catch (error) {

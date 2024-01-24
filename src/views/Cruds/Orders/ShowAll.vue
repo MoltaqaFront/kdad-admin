@@ -14,19 +14,19 @@
           <form @submit.prevent="submitFilterForm">
             <div class="row justify-content-center align-items-center w-100">
               <!-- Start:: Order Number Input -->
-              <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.codeOrders')"
+              <base-input col="4" type="text" :placeholder="$t('TABLES.Orders.orderNumber')"
                 v-model="filterOptions.orderNumber" />
               <!-- End:: Order Number Input -->
 
-              
+
               <!-- Start:: Driver Name Input -->
               <!-- <base-select-input col="4" :optionsList="clients_list" :placeholder="$t('PLACEHOLDERS.clientName')"
                 v-model="filterOptions.driver_name" /> -->
               <!-- End:: Driver Name Input -->
 
               <!-- Start:: Client Name Input -->
-              <base-select-input col="4" type="text" :optionsList="clients_list" :placeholder="$t('PLACEHOLDERS.clientName')"
-                v-model="filterOptions.clientName" />
+              <base-select-input col="4" type="text" :optionsList="clients_list"
+                :placeholder="$t('PLACEHOLDERS.clientName')" v-model="filterOptions.clientName" />
               <!-- End:: Client Name Input -->
 
               <!-- Start:: Driver Name Input -->
@@ -35,7 +35,7 @@
               <!-- End:: Driver Name Input -->
 
               <base-select-input col="4" :optionsList="providers_name" :placeholder="$t('TABLES.Orders.providername')"
-                v-model="filterOptions.providers_name"  />
+                v-model="filterOptions.providers_name" />
 
               <!-- Start:: Status Input -->
               <base-select-input col="4" :optionsList="allStatus" :placeholder="$t('PLACEHOLDERS.status')"
@@ -90,10 +90,10 @@
         </template> -->
         <!-- End:: Service -->
 
-<template v-slot:[`item.id`]="{ item, index }">
+        <!-- <template v-slot:[`item.id`]="{ item, index }">
           <p class="blue-grey--text text--darken-1 fs-3" v-if="!item.id">-</p>
           <p v-else>{{ (paginations.current_page - 1) * paginations.items_per_page + index + 1 }}</p>
-        </template>
+        </template> -->
 
         <template v-slot:[`item.store`]="{ item }">
           <p class="blue-grey--text text--darken-1 fs-3" v-if="!item.store">-</p>
@@ -115,9 +115,9 @@
         <!-- End:: Price -->
 
         <!-- Start:: Order Status -->
-        <template v-slot:[`item.status`]="{ item }">
+        <template v-slot:[`item.status.name`]="{ item }">
           <v-chip color="secondary" text-color="white" small>
-            {{ item.status }}
+            {{ item.status.name }}
           </v-chip>
           <!-- <v-chip v-else-if="item.status === 'approved'" color="deep-purple darken-1" text-color="white" small>
             {{ $t("STATUS.approved") }}
@@ -221,6 +221,13 @@
             <tbody>
 
               <tr class="text-center">
+                <td>
+                  <span v-html="orderData.qr"></span>
+                  <span>{{ $t("PLACEHOLDERS.qr") }}</span>
+                </td>
+              </tr>
+
+              <tr class="text-center">
                 <td>{{ $t("PLACEHOLDERS.serial_num") }}</td>
                 <td>{{ orderData.id }}</td>
               </tr>
@@ -247,9 +254,9 @@
 
               <tr class="text-center">
                 <td>{{ $t("PLACEHOLDERS.Shipment_sub_type") }}</td>
-                <td>{{ orderData.Shipment_sub_type }}</td>
+                <td>{{ orderData.shipment_sub_type }}</td>
               </tr>
-              
+
               <tr class="text-center">
                 <td>{{ $t("PLACEHOLDERS.Shipment_length") }}</td>
                 <td>{{ orderData.length }}</td>
@@ -373,6 +380,7 @@ export default {
     return {
       orderData: {
         id: null,
+        qr: null,
         code: null,
         created_at: null,
         provider_name: null,
@@ -438,7 +446,7 @@ export default {
         },
         {
           text: this.$t("TABLES.Orders.orderprice"),
-          value: "user.phone",
+          value: "finalPrice",
           sortable: false,
           align: "center",
           width: "140"
@@ -529,6 +537,9 @@ export default {
       itemReportOrderStatus: null,
       itemReportOrderDate: null,
 
+      is_finished: null,
+      providers_id: null,
+
     };
   },
 
@@ -544,22 +555,7 @@ export default {
   methods: {
     // Start:: Handel Filter
     async submitFilterForm() {
-      // if (!this.filterOptions.startDate && this.filterOptions.endDate) {
-      //   this.$message.error(this.$t("VALIDATION.startDate"));
-      //   return;
-      // } else if (this.filterOptions.startDate && !this.filterOptions.endDate) {
-      //   this.$message.error(this.$t("VALIDATION.endDate"));
-      //   return;
-      // } else {
-      //   if (this.$route.query.page !== '1') {
-      //     await this.$router.push({ path: '/orders/all', query: { page: 1 } });
-      //   }
-      //   this.setTableRows();
-      // }
-
-
       this.setTableRows();
-
     },
     async resetFilter() {
 
@@ -593,17 +589,33 @@ export default {
     async setTableRows() {
       this.loading = true;
       const { query } = this.$route;
+
+      if (query.is_finished) {
+        this.is_finished = 1
+      } else {
+        this.is_finished = null
+      }
+
+      if (query.providerId) {
+        this.providers_id = query.providerId;
+      } else {
+        this.providers_id = this.filterOptions.providers_name?.id
+      }
+
+
       try {
         let res = await this.$axios({
           method: "GET",
           url: "modules/order",
           params: {
             page: this.paginations.current_page,
-            code: this.filterOptions.orderNumber,
+            id: this.filterOptions.orderNumber,
             clientId: this.filterOptions.clientName?.id,
             mobile: this.filterOptions.driverPhone,
-            status: this.filterOptions.status?.name,
-            providerId: this.filterOptions.providers_name?.id ? this.filterOptions.providers_name?.id : query.providerId,
+            status: this.filterOptions.status?.key,
+            providerId: this.providers_id,
+            is_finished: this.is_finished
+
           },
         });
         this.loading = false;
@@ -637,14 +649,16 @@ export default {
     // ===== End:: Edit
 
     // ===== End:: download pdf
-      async DownloadInvoice(item) {
+    async DownloadInvoice(item) {
       try {
         // Fetch data for the specific order using item.id
         let res = await this.$axios({
           method: "GET",
           url: `modules/order/receipt/${item.id}`,
-        }); 
+        });
         this.orderData.id = res.data.data.id;
+        this.orderData.qr = res.data.data.qr;
+        console.log(this.orderData.qr)
         this.orderData.code = res.data.data.coupon_code;
         this.orderData.created_at = res.data.data.created_at;
         this.orderData.provider_name = res.data.data.provider_name;
@@ -657,11 +671,10 @@ export default {
         this.orderData.weight = res.data.data.weight;
         this.orderData.description = res.data.data.description;
         this.orderData.car_plate = res.data.data.serial_number;
-        this.orderData.price = res.data.data.price; 
-        this.orderData.price_after_disc = res.data.data.price_discount; 
-        this.orderData.vat = res.data.data.vat; 
+        this.orderData.price = res.data.data.price;
+        this.orderData.price_after_disc = res.data.data.price_discount;
+        this.orderData.vat = res.data.data.vat;
         this.orderData.price_vat = res.data.data.price_vat;
-        console.log(this.orderData)
         this.downloadPdf();
       }
       catch (error) {
@@ -670,15 +683,15 @@ export default {
       }
 
     },
-    
+
 
     // ===== End:: download pdf
     // Start:: Handling Download Files
     async downloadPdf(item) {
-  // Generate the PDF
-  await this.$refs.html2Pdf.generatePdf();
-  this.pdfDownloadBtnIsLoading = false;
-},
+      // Generate the PDF
+      await this.$refs.html2Pdf.generatePdf();
+      this.pdfDownloadBtnIsLoading = false;
+    },
     // End:: Handling Download Files
 
     // ===== Start:: Delete

@@ -2,7 +2,7 @@
   <div class="crud_form_wrapper">
     <!-- Start:: Title -->
     <div class="form_title_wrapper">
-      <h4>{{ $t("BUTTONS.add_notification") }}</h4>
+      <h4>{{ $t("PLACEHOLDERS.edit_notification_details") }}</h4>
     </div>
     <!-- End:: Title -->
 
@@ -12,17 +12,9 @@
         <div class="row">
 
           <!-- Start:: Receiver Type Input -->
-          <base-select-input col="6" :optionsList="receiverTypes" :placeholder="$t('TABLES.Notifications.receiverType')"
-            v-model="data.receiverType" required @input="getUsers" />
+          <base-input col="6" type="text" :placeholder="$t('TABLES.Notifications.receiverType')"
+            v-model.trim="data.sender_type" required readonly />
           <!-- End:: Receiver Type Input -->
-
-          <base-select-input col="6" v-if="(data.receiverType && data.receiverType.value == 'client')"
-            :optionsList="Users" :placeholder="$t('PLACEHOLDERS.client_ask')" v-model="data.user_types" required multiple
-            @input="handleClientSelectionChange" />
-
-          <base-select-input col="6" v-if="(data.receiverType && data.receiverType.value == 'provider')"
-            :optionsList="Users" :placeholder="$t('PLACEHOLDERS.provider_ask')" v-model="data.user_types" required
-            multiple @input="handleClientSelectionChange" />
 
           <div class="col-12">
             <div class="row">
@@ -154,35 +146,21 @@ export default {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
 
-      if (this.data.receiverType?.value == 'provider' || this.data.receiverType?.value == 'client') {
-
-        REQUEST_DATA.append("user_type[]", this.data.receiverType?.value);
-
-        this.data.user_types.forEach((element) => {
-          if (element.value == 'all') {
-            // REQUEST_DATA.append(`selectedUsers[]`, "");
-          } else {
-            REQUEST_DATA.append(`selectedUsers[]`, element.id);
-          }
-        });
-
-        // if(this.data)
-      }
-
       REQUEST_DATA.append("title[ar]", this.data.titleAr);
       REQUEST_DATA.append("title[en]", this.data.titleEn);
       REQUEST_DATA.append("content[ar]", this.data.contentAr);
       REQUEST_DATA.append("content[en]", this.data.contentEn);
+      REQUEST_DATA.append("_method", "PUT");
       // Start:: Append Request Data
 
       try {
         await this.$axios({
           method: "POST",
-          url: `modules/notification`,
+          url: `modules/notification/${this.$route.params.id}`,
           data: REQUEST_DATA,
         });
         this.isWaitingRequest = false;
-        this.$message.success(this.$t("MESSAGES.sentSuccessfully"));
+        this.$message.success(this.$t("MESSAGES.editedSuccessfully"));
         this.$router.push({ path: "/all-notifications/all" });
       } catch (error) {
         this.isWaitingRequest = false;
@@ -224,9 +202,31 @@ export default {
 
     },
 
+    // get notification with id
+    async getNotificationData() {
+      try {
+        let res = await this.$axios({
+          method: "GET",
+          url: `modules/notification/${this.$route.params.id}`
+        });
+        console.log(res.data.data)
+        this.data.sender_type = res.data.data.targets[0].name;
+        this.data.titleAr = res.data.data.title_ar;
+        this.data.titleEn = res.data.data.title_en;
+        this.data.contentAr = res.data.data.content_ar;
+        this.data.contentEn = res.data.data.content_en;
+
+      } catch (error) {
+        this.loading = false;
+        console.log(error.response.data.message);
+      }
+    },
   },
 
   created() {
+    // Start:: Fire Methods
+    this.getNotificationData()
+    // End:: Fire Methods
   },
 };
 </script>

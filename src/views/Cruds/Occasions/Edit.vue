@@ -153,7 +153,7 @@ export default {
 
     async getOccasionsData() {
       try {
-        let res = await this.$axios({
+        let res = await this.$axios({ 
           method: "GET",
           url: `admin/occasions/${this.$route.params.id}`,
         });
