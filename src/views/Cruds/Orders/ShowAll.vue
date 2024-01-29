@@ -685,7 +685,7 @@ export default {
         this.orderData.price_after_disc = res.data.data.price_discount;
         this.orderData.vat = res.data.data.vat;
         this.orderData.price_vat = res.data.data.price_vat;
-        this.orderData.customer_name = res.data.data.provider_name;
+        this.orderData.customer_name = res.data.data.client_name;
         this.orderData.customer_address = res.data.data.provider_address;
         this.downloadPdf();
       }
