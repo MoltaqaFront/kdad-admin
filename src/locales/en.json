@@ -985,7 +985,10 @@
     "view_notification_details": "View Notification Details",
     "edit_notification_details": "Edit Notification Details",
     "wallet_driver": "Wallet Diver",
-    "no_notifications": "No Notifications"
+    "no_notifications": "No Notifications",
+
+    "customer_name": "Customer Name",
+    "customer_address": "Customer Address"
   },
 
   "VALIDATION": {

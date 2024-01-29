@@ -221,9 +221,12 @@
             <tbody>
 
               <tr class="text-center">
-                <td>
-                  <span v-html="orderData.qr"></span>
-                  <span>{{ $t("PLACEHOLDERS.qr") }}</span>
+                <td colspan="2">
+                  <div class="text-center w-100 d-flex justify-content-center m-auto">
+                    <span v-html="orderData.qr"
+                      class="m-auto xt-center w-100 d-flex justify-content-center m-auto"></span>
+                  </div>
+                  <!-- <span>{{ $t("PLACEHOLDERS.qr") }}</span> -->
                 </td>
               </tr>
 
@@ -243,8 +246,13 @@
               </tr>
 
               <tr class="text-center">
-                <td>{{ $t("TABLES.Orders.provideraddress") }}</td>
-                <td>{{ orderData.provider_add }}</td>
+                <td>{{ $t("PLACEHOLDERS.customer_name") }}</td>
+                <td>{{ orderData.customer_name }}</td>
+              </tr>
+
+              <tr class="text-center">
+                <td>{{ $t("PLACEHOLDERS.customer_address") }}</td>
+                <td>{{ orderData.customer_address }}</td>
               </tr>
 
               <tr class="text-center">
@@ -397,6 +405,8 @@ export default {
         price_after_disc: null,
         vat: null,
         price_vat: null,
+        customer_name: null,
+        customer_address: null,
       },
       itemReportCode: "",
       // Start:: Loading Data
@@ -675,6 +685,8 @@ export default {
         this.orderData.price_after_disc = res.data.data.price_discount;
         this.orderData.vat = res.data.data.vat;
         this.orderData.price_vat = res.data.data.price_vat;
+        this.orderData.customer_name = res.data.data.provider_name;
+        this.orderData.customer_address = res.data.data.provider_address;
         this.downloadPdf();
       }
       catch (error) {

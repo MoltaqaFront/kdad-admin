@@ -6,15 +6,17 @@
       <form>
 
         <transition-group name="fade" v-if="receivedMessages.length">
-          <div class="notification" v-for="(message, index) in receivedMessages" :key="'k' + index">
+          <div class="notification" v-for="(message, index) in   receivedMessages  " :key="'k' + index">
 
-            <h3>{{ message.title }}</h3>
-            <p>{{ message.message }}</p>
+            <router-link :to="'/orders/show/' + message.data.data.order_id">
+              <h3>{{ message.title }}</h3>
+              <p>{{ message.message }}</p>
 
-            <div v-if="message.id" :class="{ 'read': message.read == 1 }" class="delete_notification"
-              @click="NotificationsReaded(message.id)">
-              <i class="fas fa-check-double"></i>
-            </div>
+              <div v-if="message.id" :class="{ 'read': message.read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
           </div>
         </transition-group>
 

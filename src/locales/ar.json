@@ -982,7 +982,10 @@
     "view_notification_details": "عرض تفاصيل الإشعار",
     "edit_notification_details": "تعديل تفاصيل الإشعار",
     "wallet_driver": "محفظة السائق",
-    "no_notifications": "لا يوجد اشعارات"
+    "no_notifications": "لا يوجد اشعارات",
+
+    "customer_name": "اسم طالب الخدمة",
+    "customer_address": "عنوان طالب الخدمة"
   },
 
   "VALIDATION": {
