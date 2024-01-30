@@ -181,7 +181,7 @@
           <v-dialog v-model="dialogDeactivate">
             <v-card>
               <v-card-title class="text-h5 justify-center" v-if="itemToChangeActivationStatus">
-                {{ $t("TITLES.refuseConfirmingMessage", { name: itemToChangeActivationStatus.user.name }) }}
+                {{ $t("PLACEHOLDERS.reason_reject", { name: itemToChangeActivationStatus.user.name }) }}
               </v-card-title>
 
               <form class="w-100">

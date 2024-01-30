@@ -219,7 +219,7 @@ export default {
           route: "/wallet-settlment/all",
           hasPermission: false
         },
-        
+
         // {
         //   key: "storesTypes",
         //   title: this.$t("SIDENAV.StoresTypes.title"),
@@ -432,36 +432,36 @@ export default {
               hasPermission: false,
             },
             {
-              key: "create",
+              key: "store",
               title: this.$t("PLACEHOLDERS.add_car_modal"),
               route: "/carModals/create",
               hasPermission: false,
             },
           ],
         },
-        { 
+        {
           key: "cartype",
           title: this.$t("PLACEHOLDERS.car_types"),
           icon: require("@/assets/media/icons/ui_icons/car.svg"),
           route: "/carTypes/all",
           hasPermission: false,
         },
-        
-        { 
+
+        {
           key: "shipmentype",
           title: this.$t("PLACEHOLDERS.Shipment_maim_Types"),
           icon: require("@/assets/media/icons/ui_icons/trunc.svg"),
           route: "/shipment-type/all",
           hasPermission: false,
         },
-        { 
+        {
           key: "shipmentsubtype",
           title: this.$t("PLACEHOLDERS.Shipment_Sub_Types"),
           icon: require("@/assets/media/icons/ui_icons/box.svg"),
           route: "/shipment-sub-type/all",
           hasPermission: false,
         },
-  
+
         {
           key: "nationality",
           title: this.$t("PLACEHOLDERS.Nationalities"),
@@ -623,25 +623,25 @@ export default {
           hasPermission: false,
           children: [
             {
-              key: "aboutUs",
+              key: "show",
               title: this.$t("SIDENAV.AppContent.aboutUs"),
               route: "/app-content/about-us",
               hasPermission: false,
             },
             {
-              key: "termsAndConditions",
+              key: "show",
               title: this.$t("SIDENAV.AppContent.termsAndConditions"),
               route: "/app-content/terms",
               hasPermission: false,
             },
             {
-              key: "privacyPolicy",
+              key: "show",
               title: this.$t("SIDENAV.AppContent.privacyPolicy"),
               route: "/app-content/policy",
               hasPermission: false,
             },
             {
-              key: "ContactSetting",
+              key: "show",
               title: this.$t("SIDENAV.AppContent.ContactSetting"),
               route: "/app-content/ContactSetting",
               hasPermission: false,
@@ -654,7 +654,7 @@ export default {
           icon: require("@/assets/media/icons/ui_icons/settings.svg"),
           route: "/settings/AppSettings",
           hasPermission: false,
-        
+
         },
         {
           key: "ability",
@@ -700,7 +700,7 @@ export default {
         },
 
 
-    ],
+      ],
       // End:: Side Navbar List
 
       // Start:: Modal Controlling Data
