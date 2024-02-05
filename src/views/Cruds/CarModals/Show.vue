@@ -11,6 +11,11 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
+          <!-- Start:: Image Upload Input -->
+          <base-image-upload-input col="12" identifier="admin_image" :preSelectedImage="data.image.path"
+            :placeholder="$t('PLACEHOLDERS.personalImage')" @selectImage="selectImage" disabled />
+          <!-- End:: Image Upload Input -->
+
           <!-- Start:: Name Input -->
           <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.nameAr')" v-model.trim="data.nameAr" disabled />
           <!-- End:: Name Input -->
@@ -26,7 +31,7 @@
           <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.nameAr')" v-model.trim="data.date" disabled />
           <!-- End:: date -->
 
-          
+
 
           <!-- End:: Submit Button Wrapper -->
         </div>
@@ -50,11 +55,15 @@ export default {
 
       // Start:: Data Collection To Send
       data: {
+        image: {
+          path: null,
+          file: null,
+        },
         nameAr: null,
         nameEn: null,
         car_type: null,
         date: null
-        
+
       },
       // End:: Data Collection To Send
     };
@@ -84,11 +93,12 @@ export default {
           method: "GET",
           url: `modules/car-category/${this.$route.params.id}`,
         });
+        this.data.image.path = res.data.data.image;
         this.data.nameAr = res.data.data.title_ar;
         this.data.nameEn = res.data.data.title_en;
         this.data.date = res.data.data.created_at;
         this.data.car_type = res.data.data.carTypeTitle.name;
-        
+
       } catch (error) {
         this.loading = false;
         console.log(error.response.data.message);

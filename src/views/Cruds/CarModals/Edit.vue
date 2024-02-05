@@ -11,6 +11,11 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
+          <!-- Start:: Image Upload Input -->
+          <base-image-upload-input col="12" identifier="admin_image" :placeholder="$t('PLACEHOLDERS.image')"
+            @selectImage="selectImage" required :preSelectedImage="data.image.path" />
+          <!-- End:: Image Upload Input -->
+
           <!-- Start:: Name Input -->
           <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.nameAr')" v-model.trim="data.nameAr" required />
           <!-- End:: Name Input -->
@@ -54,6 +59,10 @@ export default {
 
       // Start:: Data Collection To Send
       data: {
+        image: {
+          path: null,
+          file: null,
+        },
         nameAr: null,
         nameEn: null,
         is_active: null,
@@ -85,7 +94,11 @@ export default {
     validateFormInputs() {
       this.isWaitingRequest = true;
 
-      if (!this.data.nameAr) {
+      if (!this.data.image.path) {
+        this.isWaitingRequest = false;
+        this.$message.error(this.$t("VALIDATION.image"));
+        return;
+      } else if (!this.data.nameAr) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.nameAr"));
         return;
@@ -108,6 +121,7 @@ export default {
     async submitForm() {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
+      REQUEST_DATA.append("image", this.data.image.file);
       REQUEST_DATA.append("title[ar]", this.data.nameAr);
       REQUEST_DATA.append("title[en]", this.data.nameEn);
       REQUEST_DATA.append("is_active", +this.data.is_active);
@@ -129,6 +143,11 @@ export default {
         this.$message.error(error.response.data.message);
       }
     },
+    // Start:: Select Upload Image
+    selectImage(selectedImage) {
+      this.data.image = selectedImage;
+    },
+    // End:: Select Upload Image
 
     // start all Regions data
 
@@ -138,6 +157,7 @@ export default {
           method: "GET",
           url: `modules/car-category/${this.$route.params.id}`,
         });
+        this.data.image.path = res.data.data.image;
         this.data.carType = res.data.data.carTypeTitle;
         this.data.nameAr = res.data.data.title_ar;
         this.data.nameEn = res.data.data.title_en;

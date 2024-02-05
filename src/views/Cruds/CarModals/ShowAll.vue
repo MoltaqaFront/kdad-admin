@@ -51,7 +51,7 @@
           </button>
         </div>
 
-        <div class="title_route_wrapper" v-if="permissions.create">
+        <div class="title_route_wrapper" v-if="permissions.store">
           <router-link to="/carModals/create">
             {{ $t("PLACEHOLDERS.add_car_modal") }}
           </router-link>

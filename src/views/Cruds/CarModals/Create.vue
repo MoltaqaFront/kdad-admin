@@ -11,6 +11,11 @@
       <form @submit.prevent="validateFormInputs">
         <div class="row">
 
+          <!-- Start:: Image Upload Input -->
+          <base-image-upload-input col="12" identifier="admin_image" :placeholder="$t('PLACEHOLDERS.image')"
+            @selectImage="selectImage" required />
+          <!-- End:: Image Upload Input -->
+
           <!-- Start:: Name Input -->
           <base-input col="4" type="text" :placeholder="$t('PLACEHOLDERS.nameAr')" v-model.trim="data.nameAr" required />
           <!-- End:: Name Input -->
@@ -56,13 +61,17 @@ export default {
 
       // Start:: Data Collection To Send
       data: {
+        image: {
+          path: null,
+          file: null,
+        },
         nameAr: null,
         nameEn: null,
         active: true,
         carType: null
       },
 
-      allTypes:[],
+      allTypes: [],
       // End:: Data Collection To Send
     };
   },
@@ -83,11 +92,21 @@ export default {
     }),
     // End:: Vuex Actions
 
+    // Start:: Select Upload Image
+    selectImage(selectedImage) {
+      this.data.image = selectedImage;
+    },
+    // End:: Select Upload Image
+
     // Start:: validate Form Inputs
     validateFormInputs() {
       this.isWaitingRequest = true;
 
-      if (!this.data.nameAr) {
+      if (!this.data.image.path) {
+        this.isWaitingRequest = false;
+        this.$message.error(this.$t("VALIDATION.image"));
+        return;
+      } else if (!this.data.nameAr) {
         this.isWaitingRequest = false;
         this.$message.error(this.$t("VALIDATION.nameAr"));
         return;
@@ -110,6 +129,7 @@ export default {
     async submitForm() {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
+      REQUEST_DATA.append("image", this.data.image.file);
       REQUEST_DATA.append("title[ar]", this.data.nameAr);
       REQUEST_DATA.append("title[en]", this.data.nameEn);
       REQUEST_DATA.append("is_active", +this.data.active);
@@ -130,6 +150,7 @@ export default {
         this.$message.error(error.response.data.message);
       }
     },
+
     // End:: Submit Form
     async getAllCarType() {
       this.loading = true;
