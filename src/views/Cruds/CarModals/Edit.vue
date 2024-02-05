@@ -121,7 +121,9 @@ export default {
     async submitForm() {
       const REQUEST_DATA = new FormData();
       // Start:: Append Request Data
-      REQUEST_DATA.append("image", this.data.image.file);
+      if (this.data.image.file) {
+        REQUEST_DATA.append("image", this.data.image.file);
+      }
       REQUEST_DATA.append("title[ar]", this.data.nameAr);
       REQUEST_DATA.append("title[en]", this.data.nameEn);
       REQUEST_DATA.append("is_active", +this.data.is_active);

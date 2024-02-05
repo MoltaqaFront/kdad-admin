@@ -8,7 +8,8 @@
         <transition-group name="fade" v-if="receivedMessages.length">
           <div class="notification" v-for="(message, index) in   receivedMessages  " :key="'k' + index">
 
-            <router-link :to="'/orders/show/' + message.data.data.order_id">
+            <!-- Start:: order -->
+            <router-link v-if="message.topic == 'order'" :to="'/orders/show/' + message.data.data.order_id">
               <h3>{{ message.title }}</h3>
               <p>{{ message.message }}</p>
 
@@ -17,6 +18,58 @@
                 <i class="fas fa-check-double"></i>
               </div>
             </router-link>
+            <!-- End:: order -->
+
+            <!-- Start:: new_provider -->
+            <router-link v-if="message.topic == 'new_provider'"
+              :to="'/drivers-join/show/' + message.data.data.provider_id">
+              <h3>{{ message.title }}</h3>
+              <p>{{ message.message }}</p>
+
+              <div v-if="message.id" :class="{ 'read': message.read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End:: new_provider -->
+
+            <!-- Start:: provider_profile_updated -->
+            <router-link v-if="message.topic == 'provider_profile_updated'"
+              :to="'/drivers/show/' + message.data.data.provider_id">
+              <h3>{{ message.title }}</h3>
+              <p>{{ message.message }}</p>
+
+              <div v-if="message.id" :class="{ 'read': message.read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End:: provider_profile_updated -->
+
+            <!-- Start:: admin_contact_message -->
+            <router-link v-if="message.topic == 'admin_contact_message'" :to="'/contact-messages/all'">
+              <h3>{{ message.title }}</h3>
+              <p>{{ message.message }}</p>
+
+              <div v-if="message.id" :class="{ 'read': message.read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End:: admin_contact_message -->
+
+            <!-- Start:: admin_provider_wallet_settlment_request -->
+            <router-link v-if="message.topic == 'admin_provider_wallet_settlment_request'" :to="'/wallet-settlment/all'">
+              <h3>{{ message.title }}</h3>
+              <p>{{ message.message }}</p>
+
+              <div v-if="message.id" :class="{ 'read': message.read == 1 }" class="delete_notification"
+                @click="NotificationsReaded(message.id)">
+                <i class="fas fa-check-double"></i>
+              </div>
+            </router-link>
+            <!-- End:: admin_provider_wallet_settlment_request -->
+
           </div>
         </transition-group>
 
